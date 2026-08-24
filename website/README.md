@@ -6,25 +6,20 @@ Personal academic website for Angel Ivan Rodriguez-León, built with [Quarto](ht
 
 ### Prerequisites
 ```bash
-# Install Quarto (macOS via Homebrew)
 brew install quarto
-
-# Verify installation
-quarto --version
 ```
 
 ### Preview Locally
 ```bash
-cd website/
 quarto preview
 ```
-The site will open in your browser with live reload on file changes.
+Opens at `http://localhost:4200` with live reload.
 
-### Build for Deployment
+### Deploy to GitHub Pages
 ```bash
-quarto render
+./deploy.sh "commit message"
 ```
-Outputs to `_output/` — ready for GitHub Pages or other hosting.
+From repo root. Script handles render, copy, commit, and push.
 
 ## File Structure
 
@@ -48,35 +43,8 @@ website/
 - **About** (`about.qmd`) — Background, education, experience, awards; CV embedded
 - **Research** (`projects.qmd`) — Active projects, publications, technical skills
 
-## Customization
+## Edit Content
 
-**Update Social Links:**
-Edit `_quarto.yml` navbar section:
-- LinkedIn: ✓ www.linkedin.com/in/i-leon
-- ORCID: ✓ https://orcid.org/0009-0001-0630-9370
-- Google Scholar: Add your full Scholar ID
-- GitHub: Add your GitHub URL
-
-**Styling:**
-Modify `assets/style.css` for colors, fonts, spacing.
-
-**Content:**
-Edit `.qmd` files using Markdown + HTML. Quarto docs: https://quarto.org
-
-## Deployment
-
-### GitHub Pages (Recommended)
-1. Push this repo to GitHub
-2. Enable GitHub Pages in repo settings → branch: `main`, folder: `/docs`
-3. Move `_output` contents to `docs/` folder
-4. Push again
-
-### Netlify / Vercel / Other
-1. Run `quarto render` locally
-2. Push `_output/` to your hosting service
-
-## Notes
-
-- CV PDF is referenced in `about.qmd` — ensure `Resume_AIRL.pdf` is in `assets/`
-- `.gitignore` excludes `_output/` to avoid committing build artifacts
-- Quarto syntax: [Documentation](https://quarto.org/docs/)
+- `.qmd` files: Markdown + Quarto syntax ([docs](https://quarto.org/docs/))
+- `_quarto.yml`: navbar, title, social links
+- `assets/style.css`: colors, fonts, spacing

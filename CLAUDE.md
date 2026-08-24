@@ -38,23 +38,22 @@ PhD_Road/
 brew install quarto
 ```
 
-**Preview locally** (from repo root or `website/` folder):
+**Preview locally**:
 ```bash
-cd website
-quarto preview
+cd website && quarto preview
 ```
-Opens live-reload server at `http://localhost:4200`. Changes to `.qmd` or `.css` auto-refresh.
+Opens at `http://localhost:4200` with live reload.
 
-**Build for deployment**:
+**Deploy to GitHub Pages**:
 ```bash
-quarto render
+./deploy.sh "commit message"
 ```
-Generates `website/_output/` — ready for GitHub Pages or static hosting.
+This renders, copies to root `docs/`, commits, and pushes in one command.
 
 **Edit content**:
-- `.qmd` files use Markdown + Quarto syntax (see [quarto.org/docs](https://quarto.org/docs/))
-- `_quarto.yml` controls navbar, title, theme, CSS
-- `assets/style.css` for custom styling (uses CSS variables for light/dark compatibility)
+- `.qmd` files: Markdown + Quarto syntax ([quarto.org/docs](https://quarto.org/docs/))
+- `_quarto.yml`: navbar, title, theme, social links
+- `assets/style.css`: custom styling (CSS variables for light/dark mode)
 
 ### Future: Skills & APIs
 
@@ -84,32 +83,29 @@ Planned component for:
 ## Common Tasks
 
 ### Update Social Links
-Edit `website/_quarto.yml` under `website: navbar: right:`:
+Edit `website/_quarto.yml` navbar section:
 ```yaml
 - icon: linkedin
   href: https://www.linkedin.com/in/i-leon
-- icon: google
-  href: https://scholar.google.com/citations?user=SCHOLAR_ID
 ```
 
 ### Add a Publication
-Edit `website/projects.qmd`, add to Publications section:
+Edit `website/projects.qmd` Publications section:
 ```markdown
 **"Paper Title"**
-*Authors*
-**Journal Name** Year, Vol(Issue), Pages
-[DOI: link](url)
+Authors
+**Journal** Year, Vol, Pages
+[DOI](url)
 ```
 
 ### Update CV
-Replace `website/assets/Resume_AIRL.pdf` with new version. The about page auto-embeds it.
+Replace `website/assets/Resume_AIRL.pdf` with new version. Auto-embedded in about page.
 
-### Deploy to GitHub Pages
-1. Ensure `website/_output/` is built: `cd website && quarto render`
-2. Commit everything except `_output/` (see `.gitignore`)
-3. Configure GitHub Pages in repo settings: source = `main`, folder = `/docs`
-4. Rename `_output/` to `docs/` and push
-5. Site live at `https://<username>.github.io/PhD_Road`
+### Deploy Changes
+```bash
+./deploy.sh "Added new publication"
+```
+That's it. Script handles render, copy, commit, and push.
 
 ## Style & Tone
 
