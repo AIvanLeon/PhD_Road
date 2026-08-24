@@ -1,6 +1,5 @@
 _output/
 .quarto/
-*.html
 .DS_Store
 
 /.quarto/
