@@ -32,11 +32,23 @@ For GitHub Actions, store these as **repo secrets** instead (Settings → Secret
 
 ## Automation (GitHub Actions)
 
-`.github/workflows/monthly-reminder.yml` runs `build_message.py` + `send_telegram.py` on the 1st of every month (also runnable manually from the Actions tab).
+`.github/workflows/monthly-reminder.yml` runs `build_message.py` + `send_telegram.py` automatically on the 1st of every month.
 
 Requires these repo secrets (Settings → Secrets and variables → Actions):
 - `TELEGRAM_BOT_TOKEN`
 - `TELEGRAM_CHAT_ID`
 
 Never commit these — only the local `.env` (gitignored) or GitHub secrets should hold real values.
+
+## Sending on a day other than the 1st
+
+**Option 1 — From GitHub (no code, no laptop needed):**
+Repo → **Actions** tab → "Monthly Conferences & Internships Reminder" → **Run workflow** button. Sends immediately.
+
+**Option 2 — From your terminal (instant, local):**
+```bash
+cd skills
+python build_message.py
+python send_telegram.py
+```
 
