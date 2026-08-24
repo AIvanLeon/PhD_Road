@@ -1,0 +1,34 @@
+{
+  "internships": [
+    {
+      "name": "NVIDIA Graduate Fellowship",
+      "url": "https://research.nvidia.com/graduate-fellowships",
+      "type": "fellowship",
+      "target": "graduate students"
+    },
+    {
+      "name": "Meta Careers",
+      "url": "https://www.metacareers.com/jobsearch/",
+      "type": "job board / company / university listing",
+      "target": "internships / postdocs / entry-level positions"
+    },  
+    {
+      "name": "Google Careers",
+      "url": "https://www.google.com/about/careers/applications/jobs/results/83535564552184518-student-researcher-phd-fall-2026?q=%22Research%20intern%22%20OR%20%22Research%20Scientist%22%20OR%20%22student%20researcher%22&target_level=INTERN_AND_APPRENTICE&degree=PURSUING_DEGREE",
+      "type": "job board / company / university listing",
+      "target": "internships / postdocs / entry-level positions"
+    },
+    {
+      "name": "Schmidt Science Fellows",
+      "url": "https://schmidtsciencefellows.org/selection/how-to-apply/",
+      "type": "fellowship",
+      "target": "graduate students"
+    },  
+    {
+      "name": "CCL Jobs",
+      "url": "https://ccl.net/chemistry/announcements/jobs/index.shtml",
+      "type": "job board / company / university listing",
+      "target": "internships / postdocs / entry-level positions"
+    }
+  ]
+}

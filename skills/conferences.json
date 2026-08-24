@@ -1,0 +1,58 @@
+{
+  "conferences": [
+    {
+      "name": "NeurIPS",
+      "url": "https://neurips.cc/",
+      "field": "machine learning",
+      "region": "global"
+    },
+    {
+      "name": "ACS",
+      "url": "https://www.acs.org/",
+      "field": "chemistry",
+      "region": "usa"
+    },
+    {
+      "name": "MRS",
+      "url": "https://www.mrs.org/meetings-events/annual-meetings",
+      "field": "materials science",
+      "region": "global"
+    },  
+    {
+      "name": "APS",
+      "url": "https://www.aps.org/events/calendar?sponsors=American%2520Physical%2520Society",
+      "field": "physics",
+      "region": "usa"
+    },  
+    {
+      "name": "CECAM",
+      "url": "https://www.cecam.org/program?type=all&month=all&location=all",
+      "field": "computational chemistry",
+      "region": "global"
+    },  
+    {
+      "name": "GRC1",
+      "url": "https://www.grc.org/computational-materials-science-and-engineering-conference/",
+      "field": "materials science",
+      "region": "global"
+    },
+    {
+      "name": "GRC2",
+      "url": "https://www.grc.org/computational-chemistry-conference/",
+      "field": "computational chemistry",
+      "region": "global"
+    },
+    {
+      "name": "CCL",
+      "url": "https://ccl.net/chemistry/announcements/conferences/index.shtml",
+      "field": "chemistry",
+      "region": "global"
+    },  
+    {
+      "name": "GRC3",
+      "url": "https://www.grc.org/find-a-conference/",
+      "field": "materials science",
+      "region": "global"
+    }
+  ]
+}

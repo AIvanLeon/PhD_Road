@@ -1,0 +1,23 @@
+{
+  "user": {
+    "name": "Angel Ivan Rodriguez-León",
+    "keywords": [
+      "computational chemistry",
+      "density functional theory",
+      "DFT",
+      "molecular dynamics",
+      "machine learning interatomic potentials",
+      "MLIP",
+      "machine learning",
+      "AI for chemistry",
+      "AI for materials science",
+      "materials discovery",
+      "neuromorphic",
+      "charge transport"
+    ]
+  },
+  "notification": {
+    "frequency": "monthly",
+    "telegram": true
+  }
+}
