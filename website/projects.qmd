@@ -1,0 +1,72 @@
+---
+title: "Research"
+---
+
+## Active Projects
+
+### ML Interatomic Potentials for MoS₂ Ion Gels (Ongoing)
+**Northwestern University, 2025**
+
+Rigorous validation of high-accuracy machine learning interatomic potentials (MLIPs) for pristine and defected MoS₂/ionic-liquid ion gels. Key contributions:
+
+- DFT-accurate molecular dynamics simulations at long timescales
+- Integration of on-the-fly charge-equilibration schemes with MLIPs
+- Green–Kubo calculations for electronic conductivity
+
+**Methods:** VASP, ASE, MACE, NequIP, PyTorch
+
+---
+
+### Ion Doping in Organic Mixed Ionic-Electronic Conductors (In Prep)
+**Northwestern University, 2025**
+
+Large-scale study of electron transport in solution-processed BBL films, with focus on charge transport mechanisms.
+
+- DFT parametrization of hopping transport models
+- Gaussian site-energy distributions from MD snapshots
+- Distance-dependent electronic couplings (300+ configurations)
+
+**Methods:** DFT, kinetic Monte Carlo, MD analysis
+
+---
+
+## Publications
+
+**1. "Simulating the helicase enzymatic action on ds-DNA: a first principle molecular dynamic study"**
+*Angel Ivan Rodriguez-León*, Cristian Ordóñez, and Ruben Santamaria
+**ACS Omega** 2025, 10(4), 3627–3639
+[DOI: 10.1021/acsomega.4c08555](https://doi.org/10.1021/acsomega.4c08555)
+
+**2. "Transition-metal doped C₆₀ fullerene for temozolomide anticancer drug delivery: A theoretical study"**
+Ashley Acosta García, *Angel Ivan Rodriguez-León*, Ruben Santamaria
+**Diamond and Related Materials** 2026, 164, 113493
+[DOI: 10.1016/j.diamond.2026.113493](https://doi.org/10.1016/j.diamond.2026.113493)
+
+---
+
+## Past Projects
+
+### Helicases & DNA Mechanics
+First-principles MD simulations of double-stranded DNA under external forces, modeling enzymatic helicase action at the quantum mechanical level. Validated experimental DNA separation forces.
+
+### Organic Solar Cells (Bachelor's Thesis)
+DFT and TD-DFT analysis of fullerene-free organic solar cell polymers, demonstrating the potential of fullerene-free designs for enhanced efficiency.
+
+---
+
+## Technical Skills
+
+**Programming & HPC:**
+Python, Fortran, Bash, MPI, OpenMP, CUDA; workflow automation on Linux clusters
+
+**Quantum Chemistry & MD:**
+VASP, Quantum ESPRESSO, ORCA, Gaussian, TeraChem, LAMMPS, GROMACS, ASE, MDAnalysis
+
+**Machine Learning:**
+PyTorch, JAX, scikit-learn, TensorFlow, materials informatics (pymatgen, matminer, RDKit)
+
+**Visualization:**
+VMD, PyMOL, ChimeraX, Ovito, Blender, Adobe Illustrator/Photoshop
+
+**Tools:**
+Git, SLURM, Docker, Jupyter, conda; Linux, macOS, Windows

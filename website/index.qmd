@@ -1,0 +1,30 @@
+---
+title: "Angel Ivan Rodriguez-León"
+subtitle: "PhD Candidate | Computational Chemistry & AI for Science"
+---
+
+## About Me
+
+I'm a PhD candidate in Chemistry at **Northwestern University**, working on computational tools to understand charge transport in complex materials. My research sits at the intersection of machine learning, quantum chemistry, and molecular dynamics simulations.
+
+My work is motivated by a fundamental challenge: **how can we design energy-efficient materials from the atomistic level up?** I focus on machine learning interatomic potentials (MLIPs) and molecular simulations for mixed ionic-electronic materials relevant to neuromorphic computing—devices that mimic biological neurons by coupling ion and electron transport.
+
+### Current Research
+
+- **ML Interatomic Potentials** for MoS₂ ion gels with on-the-fly charge equilibration
+- **Electron Transport** in organic mixed ionic-electronic conductors (BBL films)
+- **First-Principles MD Simulations** for biomolecular systems and drug delivery
+
+### Collaborators
+
+- **Prof. Monica Olvera de la Cruz** — Northwestern University
+- **Prof. Maria K. Chan** — Argonne National Laboratory (Visiting Student, 2025-2026)
+
+### Fulbright Scholar (2024-2027)
+
+### Quick Links
+
+- [Download CV](assets/Resume_AIRL.pdf)
+- [Google Scholar Profile](https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID)
+- [ORCID](https://orcid.org/0009-0001-0630-9370)
+- [LinkedIn](https://www.linkedin.com/in/i-leon)

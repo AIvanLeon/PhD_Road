@@ -1,0 +1,29 @@
+project:
+  type: website
+  output-dir: _output
+
+website:
+  title: "Angel Ivan Rodriguez-Leon"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+        text: About
+      - href: projects.qmd
+        text: Research
+    right:
+      - icon: github
+        href: https://github.com/your-github
+      - icon: linkedin
+        href: https://www.linkedin.com/in/i-leon
+      - icon: google
+        href: https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID
+      - icon: orcid
+        href: https://orcid.org/0009-0001-0630-9370
+
+format:
+  html:
+    theme: cosmo
+    css: assets/style.css
+    toc: false

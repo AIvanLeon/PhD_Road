@@ -1,0 +1,46 @@
+---
+title: "About"
+---
+
+## Background
+
+I'm a computational chemist with a passion for using machine learning and first-principles simulations to solve real-world problems in materials science and drug design. My journey from physics to chemistry to AI for science reflects my belief that interdisciplinary thinking is essential for breakthrough discoveries.
+
+## Education
+
+**Ph.D. Candidate in Chemistry** (2024–present)
+: Northwestern University, Evanston, Illinois
+Advisors: Prof. Monica Olvera de la Cruz & Prof. Maria K. Chan (Argonne National Lab)
+
+**M.Sc. in Physics** (2021–2023)
+: Universidad Nacional Autónoma de México (UNAM), Mexico City
+*Graduated with honors*
+
+**B.Sc. in Physics and Mathematics** (2014–2018)
+: Instituto Politécnico Nacional (IPN), Mexico City
+
+## Experience
+
+**Visiting Graduate Student** (2025–2026)
+: Nanoscience and Technology Division, Argonne National Laboratory
+
+**Specialized Analyst – Basic & Frontier Science** (Feb–Aug 2024)
+: CONAHCYT (Mexican National Research Council)
+Built ML+NLP automation tools for evaluating >8,000 federally funded research projects
+
+**Teaching Assistant** (2023–present)
+: Northwestern University, Chemistry Department
+
+## Awards & Scholarships
+
+- **Fulbright Garcia-Robles Grant** (2023–present)
+- **Opportunity Funds Scholarship** (EducationUSA, 2023)
+- **CONACYT Fellowship** (2021–2023)
+
+## Download CV
+
+[Full Resume (PDF)](assets/Resume_AIRL.pdf)
+
+Or view embedded below:
+
+{{< pdf assets/Resume_AIRL.pdf >}}
