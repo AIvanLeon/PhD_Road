@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 1. **Website** — Personal academic portfolio (Quarto-based static site), live at **https://aivanleon.github.io/PhD_Road** (`website/`)
 2. **Conferences & Internships reminder** — Monthly Telegram reminder (`reminders/conferences_internships/`)
 3. **Research digest** — Monthly Telegram digest of new papers matched against tracked authors/own research (`reminders/research_digest/`)
+4. **Talks & Seminars reminder** — Weekly Telegram reminder of upcoming talks/seminars/symposia, scraped from the Chemistry dept. calendar feed and PlanIt Purple (`reminders/talks_seminars/`)
 
 The repository is structured as a monorepo with independent components that can be deployed separately.
 
@@ -42,10 +43,18 @@ PhD_Road/
 │       ├── build_digest.py        # Builds the 3-section digest message
 │       ├── send_telegram.py       # Sends it via @PhDork_bot
 │       └── data/                  # Tracked in git — dedupe log + monthly archives (persistent state)
+│   │
+│   └── talks_seminars/              # Weekly talks/seminars/symposia reminder
+│       ├── config.json            # Chemistry feed lookahead + PlanIt Purple saved filter
+│       ├── fetch_events.py        # Fetches + normalizes events from both sources
+│       ├── build_message.py       # Builds the weekly message, dedupes via data/seen_events.json
+│       ├── send_telegram.py       # Sends it via @PhDork_bot
+│       └── data/                  # Tracked in git — dedupe log (persistent state)
 │
 └── .github/workflows/
-    ├── monthly-reminder.yml    # Cron: conferences/internships, 1st of each month
-    └── monthly-digest.yml      # Cron: research digest, 1st of each month (+30 min)
+    ├── monthly-reminder.yml       # Cron: conferences/internships, 1st of each month
+    ├── monthly-digest.yml         # Cron: research digest, 1st of each month (+30 min)
+    └── weekly-talks-seminars.yml  # Cron: talks/seminars, every Monday
 ```
 
 ## Development
@@ -95,6 +104,16 @@ python send_telegram.py     # sends it to @PhDork_bot
 ```
 
 Three sections, each capped: similar-to-your-work (S2 Recommendations, top 5), new-from-tracked-authors (top 3, keyword-ranked), and field-watch (config-driven keyword search, e.g. "self-driving laboratories"). Runs automatically monthly via `.github/workflows/monthly-digest.yml` (30 min after the conferences/internships reminder), which also commits `data/seen_papers.json` + the monthly archive back so dedup persists. Requires `TELEGRAM_BOT_TOKEN`/`TELEGRAM_CHAT_ID` repo secrets (same bot as the other reminder) and optionally `S2_API_KEY` to avoid the shared unauthenticated rate limit. See `reminders/research_digest/README.md`.
+
+### Talks & Seminars Reminder
+
+```bash
+cd reminders/talks_seminars
+python build_message.py     # builds data/message.txt, updates data/seen_events.json
+python send_telegram.py     # sends it to @PhDork_bot
+```
+
+Two sources, no keyword filtering (per design choice — everything in the window is shown): the Chemistry dept.'s `events-feed.xml` (the feed ignores its own `start`/`end` query params server-side and always returns its full cached event list, so the lookahead window is applied client-side in `fetch_events.py`), and PlanIt Purple's internal `/refresh_events` endpoint, called with the filter (category/audience/location IDs) saved from `https://planitpurple.northwestern.edu/#search=/5/1+20/1/` — Academic (general) + Sciences, Evanston, Graduate Students. No login/session token needed for either. Runs automatically weekly via `.github/workflows/weekly-talks-seminars.yml` (Mondays), which commits `data/seen_events.json` back so dedup persists (entries expire ~45 days after their event date). Requires `TELEGRAM_BOT_TOKEN`/`TELEGRAM_CHAT_ID` repo secrets (same bot). See `reminders/talks_seminars/README.md`.
 
 ## Key Files & What They Do
 

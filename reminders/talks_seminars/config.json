@@ -1,0 +1,21 @@
+{
+  "chemistry_calendar": {
+    "feed_url": "https://chemistry.northwestern.edu/js/events-feed.xml",
+    "lookahead_days": 14
+  },
+  "planitpurple": {
+    "base_url": "https://planitpurple.northwestern.edu",
+    "refresh_endpoint": "https://planitpurple.northwestern.edu/refresh_events",
+    "filters": {
+      "category": "1,20",
+      "audience_type": "5",
+      "location_type": "1"
+    },
+    "filter_label": "Academic (general) + Sciences, Evanston, Graduate Students",
+    "saved_link": "https://planitpurple.northwestern.edu/#search=/5/1+20/1/"
+  },
+  "notification": {
+    "frequency": "weekly",
+    "telegram": true
+  }
+}
