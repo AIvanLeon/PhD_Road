@@ -3,6 +3,12 @@ title: "Angel Ivan Rodriguez-León"
 subtitle: "PhD Candidate | Computational Chemistry & AI for Science"
 ---
 
+::: {.id-card}
+![](assets/photos/gravatar-qr.png){.id-qr alt="QR code to Gravatar profile"}
+
+[LinkedIn](https://www.linkedin.com/in/i-leon) · [GitHub](https://github.com/your-github) · [Google Scholar](https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID) · [ORCID](https://orcid.org/0009-0001-0630-9370)
+:::
+
 ## About Me
 
 I'm a PhD candidate in Chemistry at **Northwestern University**, working on computational tools to understand charge transport in complex materials. My research sits at the intersection of machine learning, quantum chemistry, and molecular dynamics simulations.

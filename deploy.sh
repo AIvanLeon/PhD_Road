@@ -10,7 +10,8 @@ echo "🔨 Building with Quarto..."
 quarto render || exit 1
 
 echo "📁 Copying to root docs folder..."
-cp -r docs ../docs || exit 1
+rsync -a --delete _output/ ../docs/ || exit 1
+touch ../docs/.nojekyll  # rsync --delete wipes it since Quarto doesn't emit it into _output
 
 cd ..
 echo "📤 Pushing to GitHub..."

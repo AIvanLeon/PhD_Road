@@ -143,6 +143,27 @@ td {
   border-bottom: 1px solid var(--border-color);
 }
 
+/* Digital ID row — QR code + social links, right under the name */
+.id-card {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin: 0.5em 0 1.5em;
+  flex-wrap: wrap;
+}
+
+.id-qr {
+  width: 90px;
+  height: 90px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.id-card p {
+  margin: 0;
+  font-size: 0.95em;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   h1 {
