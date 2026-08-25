@@ -18,24 +18,45 @@ at what these two sources currently return.
 """
 
 import json
+import os
 import time
 import requests
+from pathlib import Path
 
 GRAPH_API = "https://api.semanticscholar.org/graph/v1"
 RECS_API = "https://api.semanticscholar.org/recommendations/v1"
 RECENT_DAYS = 90
 TOP_N_RECOMMENDATIONS = 3
-MAX_RETRIES = 3
+MAX_RETRIES = 5
 TITLE_OVERLAP_THRESHOLD = 0.6  # fraction of query words that must appear in the matched title
 NOT_A_PAPER_TITLES = {"qualifying exams"}  # anchors that are notes, not real paper titles
 
 
+def load_env_file(path='.env'):
+    """Minimal .env loader — no extra dependency needed."""
+    if not Path(path).exists():
+        return
+    for line in Path(path).read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith('#') or '=' not in line:
+            continue
+        key, value = line.split('=', 1)
+        os.environ.setdefault(key.strip(), value.strip())
+
+
+load_env_file()
+S2_API_KEY = os.environ.get('S2_API_KEY')  # optional — moves off the shared unauthenticated rate limit
+
+
 def request_with_retry(method, url, **kwargs):
+    headers = kwargs.pop('headers', {})
+    if S2_API_KEY:
+        headers['x-api-key'] = S2_API_KEY
     for attempt in range(MAX_RETRIES):
-        resp = requests.request(method, url, timeout=15, **kwargs)
+        resp = requests.request(method, url, timeout=15, headers=headers, **kwargs)
         if resp.status_code != 429:
             return resp
-        time.sleep(5 * (attempt + 1))
+        time.sleep(10 * (attempt + 1))
     return resp
 
 
@@ -165,6 +186,19 @@ def recent_papers_for_author(author_id, since_days=RECENT_DAYS, verbose=True):
             print(f"   • {p.get('title')} ({p.get('publicationDate')}) — {p.get('venue') or 'venue unknown'}")
             print(f"     {p.get('url')}")
     return recent
+
+
+def search_papers_by_keyword(keyword, limit=10, verbose=True):
+    """Plain relevance-ranked S2 search for a keyword — used for the field-watch section."""
+    resp = request_with_retry(
+        "GET", f"{GRAPH_API}/paper/search",
+        params={"query": keyword, "fields": "title,year,venue,url,externalIds,abstract", "limit": limit},
+    )
+    if resp.status_code != 200:
+        if verbose:
+            print(f"   (search failed for \"{keyword}\": {resp.status_code})")
+        return []
+    return resp.json().get('data', [])
 
 
 if __name__ == '__main__':

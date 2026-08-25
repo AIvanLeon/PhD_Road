@@ -26,6 +26,10 @@
   "output": {
     "max_papers_per_digest": 8
   },
+  "field_watch": {
+    "keywords": ["self-driving laboratories", "AI for chemistry"],
+    "papers_per_keyword": 2
+  },
   "notification": {
     "frequency": "monthly",
     "telegram": true

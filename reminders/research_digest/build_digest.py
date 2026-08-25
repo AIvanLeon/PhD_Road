@@ -17,7 +17,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from fetch_papers import get_recommendations, recent_papers_for_author, load_anchors, load_authors
+from fetch_papers import get_recommendations, recent_papers_for_author, search_papers_by_keyword, load_anchors, load_authors
 
 FALLBACK_LOOKBACK_DAYS = 35  # used only on the very first run, before last_run exists
 RECOMMENDATION_POOL_SIZE = 15  # fetched pre-dedup, so 5 good ones usually survive
@@ -80,13 +80,25 @@ def clean(text):
     return html.unescape(text or '')
 
 
+def gather_field_watch(field_watch_config, seen_ids):
+    """For each configured keyword, the first N not-yet-seen matches from plain S2 search."""
+    per_keyword = field_watch_config.get('papers_per_keyword', 2)
+    results = {}
+    for keyword in field_watch_config.get('keywords', []):
+        candidates = search_papers_by_keyword(keyword, limit=per_keyword + 8, verbose=False)
+        fresh = [p for p in candidates if paper_key(p) not in seen_ids]
+        results[keyword] = fresh[:per_keyword]
+        time.sleep(1)  # be polite to the unauthenticated rate limit
+    return results
+
+
 def format_venue_year(p):
     venue = clean(p.get('venue')) or 'venue unknown'
     year = p.get('year') or ''
     return f"{venue} ({year})" if year else venue
 
 
-def build_message(similar, spotlighted_authors, other_authors, month_label):
+def build_message(similar, spotlighted_authors, other_authors, field_watch, month_label):
     lines = [f"📚 Research Digest — {month_label}"]
 
     if similar:
@@ -104,7 +116,17 @@ def build_message(similar, spotlighted_authors, other_authors, month_label):
     if other_authors:
         lines.append(f"\nAlso new this month, not shown: {', '.join(other_authors)} — check semanticscholar.org")
 
-    if not similar and not spotlighted_authors:
+    if any(field_watch.values()):
+        lines.append("\n🧭 Field watch")
+        for keyword, papers in field_watch.items():
+            if not papers:
+                continue
+            lines.append(f"\n{keyword}:")
+            for p in papers:
+                lines.append(f"• {clean(p.get('title'))} — {format_venue_year(p)}")
+                lines.append(f"  {p.get('url')}")
+
+    if not similar and not spotlighted_authors and not any(field_watch.values()):
         lines.append("\nNo new relevant papers this month.")
 
     return "\n".join(lines)
@@ -124,6 +146,7 @@ def main():
 
     similar_pool = gather_similar(anchors, seen_ids)
     author_pool = gather_author_papers(authors, seen_ids, since_days)
+    field_watch = gather_field_watch(config.get('field_watch', {}), seen_ids)
 
     # Rank author papers by keyword relevance first, recency as tiebreaker
     author_pool.sort(key=lambda item: (keyword_score(item[1], keywords), item[1].get('publicationDate') or ''), reverse=True)
@@ -137,7 +160,7 @@ def main():
     other_authors = sorted({name for name, _ in leftover_authors} - {name for name, _ in spotlighted_authors})
 
     month_label = datetime.now().strftime("%B %Y")
-    message = build_message(similar, spotlighted_authors, other_authors, month_label)
+    message = build_message(similar, spotlighted_authors, other_authors, field_watch, month_label)
 
     Path('data').mkdir(exist_ok=True)
     Path('data/message.txt').write_text(message)
@@ -147,11 +170,13 @@ def main():
         "similar": [{"title": p.get('title'), "url": p.get('url'), "key": paper_key(p)} for p in similar],
         "authors": [{"name": name, "title": p.get('title'), "url": p.get('url'), "key": paper_key(p)} for name, p in spotlighted_authors],
         "other_authors": other_authors,
+        "field_watch": {kw: [{"title": p.get('title'), "url": p.get('url'), "key": paper_key(p)} for p in papers] for kw, papers in field_watch.items()},
     }
     Path(f'data/digest_{archive_month}.json').write_text(json.dumps(archive, indent=2))
 
     # Everything considered (shown or not) is marked seen so it never resurfaces
     considered_keys = {paper_key(p) for p in similar_pool} | {paper_key(p) for _, p in author_pool}
+    considered_keys |= {paper_key(p) for papers in field_watch.values() for p in papers}
     seen['seen'] = sorted(seen_ids | considered_keys)
     seen['last_run'] = datetime.now(timezone.utc).isoformat()
     Path('data/seen_papers.json').write_text(json.dumps(seen, indent=2))

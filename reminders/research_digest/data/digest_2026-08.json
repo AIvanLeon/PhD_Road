@@ -1,56 +1,31 @@
 {
-  "similar": [
-    {
-      "title": "Machine learning potential-based molecular dynamics simulations of water transport in graphene nanoslit channels",
-      "url": "https://www.semanticscholar.org/paper/0463b17a2115d022da8796590b4199f89d5a28b6",
-      "key": "DOI:10.1117/12.3119618"
-    },
-    {
-      "title": "Phonon-Mediated Thermal Transport in Nanocrystalline Silicon Using Machine-Learning Interatomic Potentials",
-      "url": "https://www.semanticscholar.org/paper/6fd2b81a0995c9c2b78059cdd4e0eacfc7b38e47",
-      "key": "ARXIV:2607.06470"
-    },
-    {
-      "title": "Molecular Dynamics Investigation of Pressure-Driven Water Transport in Kaolinite Nanopores",
-      "url": "https://www.semanticscholar.org/paper/9ff8ec5aa2d5053a5a41e1b416dad99c27d2c762",
-      "key": "DOI:10.32604/fdmp.2026.083771"
-    },
-    {
-      "title": "Mechanisms of wettability-controlled multiphase flow in nanoporous media: A coupled molecular dynamics and lattice Boltzmann study",
-      "url": "https://www.semanticscholar.org/paper/7cf8a0d04784d95756e5b50d1aad86ebf8f33577",
-      "key": "DOI:10.1063/5.0330964"
-    },
-    {
-      "title": "Learning to Converge: Warm-Starting DFTB Self-Consistent Charges with Machine Learning",
-      "url": "https://www.semanticscholar.org/paper/3468a73d6a1f9881711f7d6fd05daf059fc44ddd",
-      "key": "ARXIV:2607.09304"
-    }
-  ],
-  "authors": [
-    {
-      "name": "J\u00f6rg Behler",
-      "title": "A high-dimensional neural network potential for finite-temperature phenomena in NiTi martensite",
-      "url": "https://www.semanticscholar.org/paper/94102c3217078ad161f0f555a4acaa82d98d786a",
-      "key": "ARXIV:2607.20681"
-    },
-    {
-      "name": "Paola Gori-Giorgi",
-      "title": "The rocky path of DFT into chemistry-Discussions at a symposium and reflections on a circular journey in honor of Axel Becke 1953-2025.",
-      "url": "https://www.semanticscholar.org/paper/cc69a3649b6fb6b655d271713ed0c01f447b95f0",
-      "key": "DOI:10.1063/5.0337560"
-    },
-    {
-      "name": "Lyderic Bocquet",
-      "title": "Iontronics and emergent neuromorphic effects under angstrom-confinement: general discussion.",
-      "url": "https://www.semanticscholar.org/paper/c6bd064e54952cf2a9db192843947a0b7bbaf7e1",
-      "key": "DOI:10.1039/d6fd90019d"
-    }
-  ],
-  "other_authors": [
-    "Angelos Michaelides",
-    "M. Parinello",
-    "Mark Hersam",
-    "Michele Ceriotti",
-    "Olexandr Isayev"
-  ]
+  "similar": [],
+  "authors": [],
+  "other_authors": [],
+  "field_watch": {
+    "self-driving laboratories": [
+      {
+        "title": "Autonomous \u2018self-driving\u2019 laboratories: a review of technology and policy implications",
+        "url": "https://www.semanticscholar.org/paper/fb2b8381b478ae0697727412b3092418e3c70f1b",
+        "key": "DOI:10.1098/rsos.250646"
+      },
+      {
+        "title": "Steering towards safe self-driving laboratories",
+        "url": "https://www.semanticscholar.org/paper/55c9fe43d52b86fe0eb0efbdd6e6e681b46f441f",
+        "key": "DOI:10.1038/s41570-025-00747-x"
+      }
+    ],
+    "AI for chemistry": [
+      {
+        "title": "Survey on recent progress of AI for chemistry: methods, applications, and opportunities",
+        "url": "https://www.semanticscholar.org/paper/332f1750ce3244c7335526a446eecc2ce04f379e",
+        "key": "DOI:10.1007/s11704-025-50127-3"
+      },
+      {
+        "title": "AI for chemistry teaching: responsible AI and ethical considerations",
+        "url": "https://www.semanticscholar.org/paper/73ce169baafaf0dee1250e6941aa81bc5b691513",
+        "key": "DOI:10.1515/cti-2024-0014"
+      }
+    ]
+  }
 }
