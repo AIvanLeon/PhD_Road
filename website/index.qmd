@@ -6,7 +6,7 @@ subtitle: "PhD Candidate | Computational Chemistry & AI for Science"
 ::: {.id-card}
 ![](assets/photos/gravatar-qr.png){.id-qr alt="QR code to Gravatar profile"}
 
-[LinkedIn](https://www.linkedin.com/in/i-leon) · [GitHub](https://github.com/your-github) · [Google Scholar](https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID) · [ORCID](https://orcid.org/0009-0001-0630-9370)
+[LinkedIn](https://www.linkedin.com/in/i-leon) · [GitHub](https://github.com/AIvanLeon) · [Google Scholar](https://scholar.google.com/citations?user=CCLgP_0AAAAJ&hl=en) · [ORCID](https://orcid.org/0009-0001-0630-9370)
 :::
 
 ## About Me
@@ -31,6 +31,6 @@ My work is motivated by a fundamental challenge: **how can we design energy-effi
 ### Quick Links
 
 - [Download CV](assets/Resume_AIRL.pdf)
-- [Google Scholar Profile](https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID)
+- [Google Scholar Profile](https://scholar.google.com/citations?user=CCLgP_0AAAAJ&hl=en)
 - [ORCID](https://orcid.org/0009-0001-0630-9370)
 - [LinkedIn](https://www.linkedin.com/in/i-leon)
