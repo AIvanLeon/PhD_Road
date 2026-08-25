@@ -99,6 +99,11 @@
       "name": "Angelos Michaelides",
       "semantic_scholar_id": "143905729",
       "note": "MD, MLIPs"
+    },
+    {
+      "name": "Ji Chen",
+      "semantic_scholar_id": "153425887",
+      "note": "neural network ansatz for ab initio solids, machine learning + DFT"
     }
   ]
 }
