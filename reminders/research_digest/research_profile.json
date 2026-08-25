@@ -1,0 +1,46 @@
+{
+  "anchors": [
+    {
+      "title": "Simulating the helicase enzymatic action on ds-DNA: a first principle molecular dynamic study",
+      "source": "ACS Omega 2025, 10(4), 3627-3639",
+      "doi": "10.1021/acsomega.4c08555",
+      "abstract": "Understanding DNA replication is fundamental for advancements in fields such as genetics, molecular biology, and medical research. In this study, we investigate the mechanical characteristics of three distinct double-stranded DNA molecules (ds-DNA) as each of them is unwound into two individual single strands. To simulate the helicase action, the double strands are subjected to Langevin forces. By use of sequential and helical steering harmonic forces that simulate the enzymatic action of a helicase, each strand of ds-DNA is opened. The research focuses on determining thermal fluctuations, energy changes, charge variations, and individual forces associated with the separation of each base pair in the examined sequences. The findings emphasize the importance of combining quantum mechanical techniques with an implicit force model. This integrative approach is versatile and provides valuable insights into the essential processes governing DNA mechanisms, particularly in relation to cellular functioning, thereby enhancing our understanding of biological molecules"
+    },
+    {
+      "title": "Transition-metal doped C60 fullerene for temozolomide anticancer drug delivery: A theoretical study",
+      "source": "Diamond and Related Materials 2026, 164, 113493",
+      "doi": "10.1016/j.diamond.2026.113493",
+      "abstract": "In this study, we investigate transition metal-doped fullerenes as nanodelivery systems of the anticancer drug Temozolomide. Using density functional theory in combination with molecular dynamics, and simulations with implicit solvent forces, we analyze the geometrical, electronic, and energetic properties of these complexes to assess their suitability as nanocarriers. Our findings show that metal doping enhances various properties, including solubility, stability, and transport capabilities, while preserving the integrity of the drug. We find that nickel-doped and titanium-doped fullerenes exhibit the most favorable interactions with suggesting their potential as effective delivery systems and motivating future experimental in vitro studies on drug transport efficiency"
+    },
+    {
+      "title": "Machine-learning interatomic potentials with on-the-fly charge equilibration for mixed ionic-electronic transport in MoS2 iongels",
+      "source": "Ongoing, Northwestern",
+      "doi": "",
+      "abstract": ""
+    },
+    {
+      "title": "Current Spiking and Nascent Memory of Organic Mixed Ionic-Electronic Conductors",
+      "source": "Manuscript under preparation, Northwestern",
+      "doi": "",
+      "abstract": "Organic mixed ionic-electronic conductors are key components of innovative energy storage and conversion devices. In these semiconductors, ions modulate the electronic conductivity. By combining multiscale simulations with advanced operando experiments, we reveal the synergistic mechanisms underlying ion doping and electronic conduction in a model ladder-type electronic-conductor polymer. We show that ions that crystallize within the polymer lamellar structure support electronicconduction. In contrast, at high voltage, crowded disordered ionic structures emerge that inhibit electronic transport. This results in an electronic current versus doping voltage response that resembles the spikes of voltage-dependent sodium channels in the Hodgkin-Huxley neuron model. A semiclassical model reveals non-linear electronic transport and hysteretic memory. Our findings lay the foundation for the design of materials for neuromorphic and bioelectronic applications."
+    },
+    {
+      "title": "Excited-state vibrational spectra of BBL polymers via TD-DFT",
+      "source": "Manuscript under preparation, Northwestern",
+      "doi": "",
+      "abstract": "Preliminary DFT and TD-DFT calculations on BBL oligomers characterize the electronic and vibrational structure of the photoexcited state probed by ultrafast spectroscopy. Ground-state IR spectra computed from monomer to tetramer are benchmarked against experimental FTIR data, establishing the role of conjugation length and exchange-correlation functional on the vibrational frequencies and confirming the trans backbone as the dominant species. TD-DFT calculations on the BBL trimer characterize the primary band-gap transition through NTO analysis, electron density difference maps, and hole-electron distribution metrics, revealing a strongly allowed, locally excited Frenkel exciton with negligible charge-transfer character.Vertical excited-state IR calculations show that photoexcitation red-shifts the carbonyl stretching modes, with the shift falling off with chain length as the perturbation is diluted by unperturbed repeat units. This vertical response, however, falls well short of the shift observed at 1 ps, indicating that spatial localization alone cannot account for the experimental signal. Optimizing the excited-state geometry of the dimer shows that local relaxation along the carbonyl coordinates reproduces the measured splitting, indicating that the response reflects nuclear relaxation rather than the spatial extent of the vertical excitation."
+    },
+    {
+      "title": "Theoretical insights of PVP-mediated electrochemical exfoliation of MoS2",
+      "source": "Manuscript under preparation, Northwestern",
+      "doi": "",
+      "abstract": "Electrochemical exfoliation of MoS2 in the presence of polyvinylpyrrolidone (PVP) and tetraalkylammonium salts shows non-monotonic yields as a function of temperature, polymer properties, and cation size. Exfoliation is maximized for intermediate alkyl chain cations while remaining low for both small (TMAB) and bulky (TDAB) ions. DFT calculations show that carbonyl–cation distances increase and dipole moments decrease with cation alkyl chain length, indicating progressively weaker electrostatic coordination. CHELPG and electronic structure analysis confirm that the interaction is dominated by localized ion–dipole polarization with negligible charge transfer. Simulated IR spectra reproduce the experimentally observed magnitude of the carbonyl frequency shift, but predict a blue shift upon coordination, in contrast to the experimental red shift, reflecting the absence of explicit solvation and thermal fluctuations in the static model. Overall, the results point to a shallow electrostatic binding landscape with high structural flexibility and no covalent contribution."
+    },  
+    {
+      "title": "Qualifying Exams",
+      "source": "Northwestern",
+      "doi": "",
+      "abstract": "Mixed ionic–electronic conductors are emerging as functional materials for neuromorphic computing, where charge transport encodes memory and nonlinear signaling. Predictive simulation requires models that simultaneously capture structural dynamics and charge redistribution at electrochemical interfaces, a challenge beyond the reach of both classical force fields and ab initio molecular dynamics (MD). Here we evaluate machine learning interatomic potentials (MLIPs), including the variable-charge model QET and foundation models MACE and UMA, for MoS2–ionic liquid interfaces. While all models reproduce equilibrium interlayer structure, accuracy degrades sharply at heterogeneous interfaces. QET maintains uniform force errors across chemical environments but exhibits unphysical charge transfer persisting. To enable fine-tuning, we construct a chemically diverse dataset spanning interfacial, defective, and far-from-equilibrium configurations, tractable for DFT labeling. Complementary multiscale simulations of BBL, an organic conductor exhibiting antiambipolar transport in electrochemical transistors, combine DFT-informed kinetic Monte Carlo with classical MD to resolve hopping transport at high doping. A Gaussian energetic disorder extracted from MD-sampled trimers parametrizes the hopping model, while DFT on solvated dimers reveals a bandgap trend mirroring the nonmonotonic conductance observed experimentally. Together, these results delineate the limits of current MLIPs and establish a promising path toward predictive simulation of coupled ionic–electronic transport."
+    }
+  ]
+}

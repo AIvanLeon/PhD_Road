@@ -1,0 +1,84 @@
+{
+  "authors": [
+    {
+      "name": "Monica Olvera de la Cruz",
+      "semantic_scholar_id": "41186775",
+      "note": "PhD advisor, Northwestern"
+    },
+    {
+      "name": "Maria K. Chan",
+      "semantic_scholar_id": "145905716",
+      "note": "Co-advisor, Argonne CNM"
+    },
+    {
+      "name": "Jörg Behler",
+      "semantic_scholar_id": "",
+      "note": "MLIP"
+    },
+    {
+      "name": "Gábor Csányi",
+      "semantic_scholar_id": "",
+      "note": "MLIP, charge equilibration"
+    },
+    {
+      "name": "Shyue Ping Ong",
+      "semantic_scholar_id": "2381325",
+      "note": "MLIP, charge equilibration, QET"
+    },
+    {
+      "name": "Olexandr Isayev",
+      "semantic_scholar_id": "2385206",
+      "note": "MLIP, machine learning interatomic potentials"
+    },
+    {
+      "name": "Bingqing Cheng",
+      "semantic_scholar_id": "39557864",
+      "note": "MLIP, Latent ewald summation"
+    },
+    {
+      "name": "Dane Morgan",
+      "semantic_scholar_id": "",
+      "note": ""
+    },
+    {
+      "name": "Mark Hersam",
+      "semantic_scholar_id": "2826053",
+      "note": "Northwestern, neuromorphic computing"
+    },
+    {
+      "name": "Julia Kallow",
+      "semantic_scholar_id": "",
+      "note": "Northwestern, photoswitches"
+    },
+    {
+      "name": "James Gaynor",
+      "semantic_scholar_id": "",
+      "note": "ultrafast spectroscopy, Northwestern"
+    },
+    {
+      "name": "Lyderic Bocquet",
+      "semantic_scholar_id": "145679409",
+      "note": "Nanoconfinement, surface response functions"
+    },
+    {
+      "name": "Richard Schaller",
+      "semantic_scholar_id": "",
+      "note": "Northwestern"
+    },
+    {
+      "name": "Felipe Jimenez-Angeles",
+      "semantic_scholar_id": "2244159049",
+      "note": "Northwestern"
+    },
+    {
+      "name": "Alan Aspuru-Guzik",
+      "semantic_scholar_id": "",
+      "note": "self-driving laboratory"
+    },
+    {
+      "name": "Paola Gori-Giorgi",
+      "semantic_scholar_id": "1389582022",
+      "note": "DFT, Skala, Microsoft"
+    }
+  ]
+}

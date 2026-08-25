@@ -5,8 +5,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Repository Overview
 
 **PhD_Road** is Angel Ivan Rodriguez-León's academic hub combining:
-1. **Website** — Personal academic portfolio (Quarto-based static site), live at **https://aivanleon.github.io/PhD_Road**
-2. **Skills** — Monthly Telegram reminder for conferences and internships (`skills/`)
+1. **Website** — Personal academic portfolio (Quarto-based static site), live at **https://aivanleon.github.io/PhD_Road** (`website/`)
+2. **Conferences & Internships reminder** — Monthly Telegram reminder (`reminders/conferences_internships/`)
+3. **Research digest** — Monthly Telegram digest of new papers matched against tracked authors/own research (`reminders/research_digest/`, in progress — see its README)
 
 The repository is structured as a monorepo with independent components that can be deployed separately.
 
@@ -24,13 +25,21 @@ PhD_Road/
 ├── docs/                       # Built site (GitHub Pages source — root /docs)
 ├── deploy.sh                   # Render + copy to docs/ + commit + push
 │
-├── skills/                     # Conferences & internships Telegram reminder
-│   ├── conferences.json       # Name + link list (no scraping)
-│   ├── internships.json       # Job boards to check for keyword matches
-│   ├── config.json            # Research keywords
-│   ├── build_message.py       # Builds the monthly message
-│   ├── send_telegram.py       # Sends it via @PhDork_bot
-│   └── .env                   # (gitignored) bot token + chat id
+├── reminders/                   # Telegram bot components (two independent reminders)
+│   ├── conferences_internships/    # Monthly conferences & internships reminder
+│   │   ├── conferences.json       # Name + link list (no scraping)
+│   │   ├── internships.json       # Job boards to check for keyword matches
+│   │   ├── config.json            # Research keywords
+│   │   ├── build_message.py       # Builds the monthly message
+│   │   ├── send_telegram.py       # Sends it via @PhDork_bot
+│   │   └── .env                   # (gitignored) bot token + chat id
+│   │
+│   └── research_digest/            # Monthly paper digest (in progress)
+│       ├── authors.json           # Tracked researchers (Semantic Scholar author IDs)
+│       ├── research_profile.json  # Anchor abstracts from own papers, for comparison
+│       ├── config.json            # Keywords, arXiv categories, output size
+│       ├── fetch_papers.py        # Preliminary S2 fetch/print script (no send yet)
+│       └── data/                  # Tracked in git — dedupe log + monthly archives (persistent state)
 │
 └── .github/workflows/
     └── monthly-reminder.yml    # Cron: runs build+send on the 1st of each month
@@ -62,17 +71,26 @@ This renders, copies to root `docs/`, commits, and pushes in one command.
 - `_quarto.yml`: navbar, title, theme, social links
 - `assets/style.css`: custom styling (CSS variables for light/dark mode)
 
-### Skills (Conferences & Internships Reminder)
+### Conferences & Internships Reminder
 
 ```bash
-cd skills
+cd reminders/conferences_internships
 python build_message.py     # builds data/message.txt
 python send_telegram.py     # sends it to @PhDork_bot
 ```
 
-Runs automatically monthly via `.github/workflows/monthly-reminder.yml`, or trigger manually from the repo's **Actions** tab ("Run workflow"). Requires `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` as GitHub repo secrets (Settings → Secrets and variables → Actions) for the Action to run, or a local `skills/.env` for manual runs. See `skills/README.md`.
+Runs automatically monthly via `.github/workflows/monthly-reminder.yml`, or trigger manually from the repo's **Actions** tab ("Run workflow"). Requires `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` as GitHub repo secrets (Settings → Secrets and variables → Actions) for the Action to run, or a local `reminders/conferences_internships/.env` for manual runs. See `reminders/conferences_internships/README.md`.
 
 Design is deliberately minimal: conferences are just a static name+link list (no scraping/scoring); internships are scraped for keyword snippets only (no dates, no accessibility checks) — kept simple after testing showed date-scraping was unreliable/noisy.
+
+### Research Digest
+
+```bash
+cd reminders/research_digest
+python fetch_papers.py      # preliminary: prints candidate recs/authors, writes nothing yet
+```
+
+Still in progress — no `build_digest.py` or send step yet, no GitHub Actions workflow. See `reminders/research_digest/README.md` for the setup TODO and matching approach.
 
 ## Key Files & What They Do
 

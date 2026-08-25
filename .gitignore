@@ -1,4 +1,5 @@
 .DS_Store
 .env
-skills/.env
-skills/data/
+reminders/conferences_internships/.env
+reminders/conferences_internships/data/
+reminders/research_digest/__pycache__/

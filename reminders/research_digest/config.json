@@ -1,0 +1,31 @@
+{
+  "keywords": [
+    "computational chemistry",
+    "density functional theory",
+    "DFT",
+    "molecular dynamics",
+    "machine learning interatomic potentials",
+    "MLIP",
+    "machine learning",
+    "AI for chemistry",
+    "AI for materials science",
+    "materials discovery",
+    "neuromorphic",
+    "charge transport",
+    "ionic-electronic",
+    "drug delivery"
+  ],
+  "arxiv_categories": [
+    "cond-mat.mtrl-sci",
+    "physics.chem-ph",
+    "physics.comp-ph",
+    "cs.LG"
+  ],
+  "output": {
+    "max_papers_per_digest": 8
+  },
+  "notification": {
+    "frequency": "monthly",
+    "telegram": true
+  }
+}

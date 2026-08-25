@@ -1,4 +1,4 @@
-# Skills: Conferences & Internships Reminder
+# Conferences & Internships Reminder
 
 A simple monthly Telegram reminder — not a scraper/scoring pipeline. Keeps things minimal.
 
@@ -47,7 +47,7 @@ Repo → **Actions** tab → "Monthly Conferences & Internships Reminder" → **
 
 **Option 2 — From your terminal (instant, local):**
 ```bash
-cd skills
+cd reminders/conferences_internships
 python build_message.py
 python send_telegram.py
 ```
