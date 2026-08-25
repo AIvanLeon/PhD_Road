@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **PhD_Road** is Angel Ivan Rodriguez-León's academic hub combining:
 1. **Website** — Personal academic portfolio (Quarto-based static site), live at **https://aivanleon.github.io/PhD_Road** (`website/`)
 2. **Conferences & Internships reminder** — Monthly Telegram reminder (`reminders/conferences_internships/`)
-3. **Research digest** — Monthly Telegram digest of new papers matched against tracked authors/own research (`reminders/research_digest/`, in progress — see its README)
+3. **Research digest** — Monthly Telegram digest of new papers matched against tracked authors/own research (`reminders/research_digest/`)
 
 The repository is structured as a monorepo with independent components that can be deployed separately.
 
@@ -34,15 +34,18 @@ PhD_Road/
 │   │   ├── send_telegram.py       # Sends it via @PhDork_bot
 │   │   └── .env                   # (gitignored) bot token + chat id
 │   │
-│   └── research_digest/            # Monthly paper digest (in progress)
+│   └── research_digest/            # Monthly paper digest
 │       ├── authors.json           # Tracked researchers (Semantic Scholar author IDs)
-│       ├── research_profile.json  # Anchor abstracts from own papers, for comparison
-│       ├── config.json            # Keywords, arXiv categories, output size
-│       ├── fetch_papers.py        # Preliminary S2 fetch/print script (no send yet)
+│       ├── research_profile.json  # Anchor papers from own work, for "similar to your work"
+│       ├── config.json            # Keywords, arXiv categories, output size, field_watch
+│       ├── fetch_papers.py        # S2 fetch helpers (recommendations, author papers, keyword search)
+│       ├── build_digest.py        # Builds the 3-section digest message
+│       ├── send_telegram.py       # Sends it via @PhDork_bot
 │       └── data/                  # Tracked in git — dedupe log + monthly archives (persistent state)
 │
 └── .github/workflows/
-    └── monthly-reminder.yml    # Cron: runs build+send on the 1st of each month
+    ├── monthly-reminder.yml    # Cron: conferences/internships, 1st of each month
+    └── monthly-digest.yml      # Cron: research digest, 1st of each month (+30 min)
 ```
 
 ## Development
@@ -87,10 +90,11 @@ Design is deliberately minimal: conferences are just a static name+link list (no
 
 ```bash
 cd reminders/research_digest
-python fetch_papers.py      # preliminary: prints candidate recs/authors, writes nothing yet
+python build_digest.py      # builds data/message.txt from 3 sections, updates dedupe state
+python send_telegram.py     # sends it to @PhDork_bot
 ```
 
-Still in progress — no `build_digest.py` or send step yet, no GitHub Actions workflow. See `reminders/research_digest/README.md` for the setup TODO and matching approach.
+Three sections, each capped: similar-to-your-work (S2 Recommendations, top 5), new-from-tracked-authors (top 3, keyword-ranked), and field-watch (config-driven keyword search, e.g. "self-driving laboratories"). Runs automatically monthly via `.github/workflows/monthly-digest.yml` (30 min after the conferences/internships reminder), which also commits `data/seen_papers.json` + the monthly archive back so dedup persists. Requires `TELEGRAM_BOT_TOKEN`/`TELEGRAM_CHAT_ID` repo secrets (same bot as the other reminder) and optionally `S2_API_KEY` to avoid the shared unauthenticated rate limit. See `reminders/research_digest/README.md`.
 
 ## Key Files & What They Do
 

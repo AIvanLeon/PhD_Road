@@ -1,0 +1,45 @@
+name: Monthly Research Digest
+
+on:
+  schedule:
+    # 9:30 UTC on the 1st of every month (offset from the conferences/internships reminder)
+    - cron: '30 9 1 * *'
+  workflow_dispatch: {}  # allows manual trigger from GitHub UI
+
+permissions:
+  contents: write  # needed to commit data/seen_papers.json + the monthly archive back
+
+jobs:
+  send-digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Build digest
+        working-directory: reminders/research_digest
+        env:
+          S2_API_KEY: ${{ secrets.S2_API_KEY }}
+        run: python build_digest.py
+
+      - name: Send to Telegram
+        working-directory: reminders/research_digest
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram.py
+
+      - name: Commit updated digest state
+        working-directory: reminders/research_digest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Update research digest state [skip ci]"
+          git push
