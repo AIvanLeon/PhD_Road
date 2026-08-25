@@ -6,14 +6,16 @@
     "molecular dynamics",
     "machine learning interatomic potentials",
     "MLIP",
-    "machine learning",
+    "ionotronics",
     "AI for chemistry",
-    "AI for materials science",
+    "AI for science",
     "materials discovery",
     "neuromorphic",
     "charge transport",
     "ionic-electronic",
-    "drug delivery"
+    "drug delivery",
+    "self-driving laboratories",
+    "multi-agent systems"
   ],
   "arxiv_categories": [
     "cond-mat.mtrl-sci",

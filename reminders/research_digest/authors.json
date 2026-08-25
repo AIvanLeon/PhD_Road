@@ -12,12 +12,12 @@
     },
     {
       "name": "Jörg Behler",
-      "semantic_scholar_id": "",
+      "semantic_scholar_id": "144136091",
       "note": "MLIP"
     },
     {
       "name": "Gábor Csányi",
-      "semantic_scholar_id": "",
+      "semantic_scholar_id": "2559761",
       "note": "MLIP, charge equilibration"
     },
     {
@@ -62,7 +62,7 @@
     },
     {
       "name": "Richard Schaller",
-      "semantic_scholar_id": "",
+      "semantic_scholar_id": "2306246",
       "note": "Northwestern"
     },
     {
@@ -72,13 +72,33 @@
     },
     {
       "name": "Alan Aspuru-Guzik",
-      "semantic_scholar_id": "",
+      "semantic_scholar_id": "1380248954",
       "note": "self-driving laboratory"
     },
     {
       "name": "Paola Gori-Giorgi",
       "semantic_scholar_id": "1389582022",
       "note": "DFT, Skala, Microsoft"
+    },
+    {
+      "name": "Chris Wolverton",
+      "semantic_scholar_id": "2088553",
+      "note": "DFT, MLIP"
+    }, 
+    {
+      "name": "Michele Ceriotti",
+      "semantic_scholar_id": "1917770",
+      "note": "MLIP"
+    }, 
+    {
+      "name": "M. Parinello",
+      "semantic_scholar_id": "144361582",
+      "note": "MD"
+    },
+    {
+      "name": "Angelos Michaelides",
+      "semantic_scholar_id": "143905729",
+      "note": "MD, MLIPs"
     }
   ]
 }

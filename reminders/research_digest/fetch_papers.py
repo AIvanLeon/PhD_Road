@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-First pass at the digest, preliminary prints only — nothing written to data/ yet.
+Semantic Scholar fetch helpers, shared by build_digest.py.
 
   1. Similar to your work: seed Semantic Scholar's Recommendations API with the
      anchors in research_profile.json. Anchors with a DOI are used directly;
@@ -12,6 +12,9 @@ First pass at the digest, preliminary prints only — nothing written to data/ y
      semantic_scholar_id, search by name and print candidates to hand-verify
      and paste in (avoids name collisions — see README). For entries that
      already have an id, fetch their recent papers.
+
+Run directly (`python fetch_papers.py`) for a preliminary, prints-only look
+at what these two sources currently return.
 """
 
 import json
@@ -35,11 +38,15 @@ def request_with_retry(method, url, **kwargs):
         time.sleep(5 * (attempt + 1))
     return resp
 
-with open('research_profile.json') as f:
-    anchors = json.load(f)['anchors']
 
-with open('authors.json') as f:
-    authors = json.load(f)['authors']
+def load_anchors():
+    with open('research_profile.json') as f:
+        return json.load(f)['anchors']
+
+
+def load_authors():
+    with open('authors.json') as f:
+        return json.load(f)['authors']
 
 
 def word_overlap(query_title, matched_title):
@@ -50,26 +57,29 @@ def word_overlap(query_title, matched_title):
     return len(query_words & matched_words) / len(query_words)
 
 
-def find_seed_id_by_title(title):
+def find_seed_id_by_title(title, verbose=True):
     resp = request_with_retry(
         "GET", f"{GRAPH_API}/paper/search/match",
         params={"query": title, "fields": "title"},
     )
     if resp.status_code != 200:
-        print(f"   (no S2 match for \"{title}\" — likely not indexed yet)")
+        if verbose:
+            print(f"   (no S2 match for \"{title}\" — likely not indexed yet)")
         return None
 
     match = resp.json().get('data', [{}])[0]
     matched_title = match.get('title', '')
     if word_overlap(title, matched_title) < TITLE_OVERLAP_THRESHOLD:
-        print(f"   (skipping weak title match for \"{title}\": got \"{matched_title}\")")
+        if verbose:
+            print(f"   (skipping weak title match for \"{title}\": got \"{matched_title}\")")
         return None
 
-    print(f"   (matched \"{title}\" -> \"{matched_title}\")")
+    if verbose:
+        print(f"   (matched \"{title}\" -> \"{matched_title}\")")
     return match.get('paperId')
 
 
-def build_seed_ids():
+def build_seed_ids(anchors, verbose=True):
     seed_ids = []
     for a in anchors:
         if a['title'].strip().lower() in NOT_A_PAPER_TITLES:
@@ -77,69 +87,68 @@ def build_seed_ids():
         if a.get('doi'):
             seed_ids.append(f"DOI:{a['doi']}")
             continue
-        seed_id = find_seed_id_by_title(a['title'])
+        seed_id = find_seed_id_by_title(a['title'], verbose=verbose)
         time.sleep(1)
         if seed_id:
             seed_ids.append(seed_id)
     return seed_ids
 
 
-def get_recommendations():
-    seed_ids = build_seed_ids()
+def get_recommendations(anchors, limit=TOP_N_RECOMMENDATIONS, verbose=True):
+    """Returns a list of paper dicts (title, year, venue, url, externalIds, paperId)."""
+    seed_ids = build_seed_ids(anchors, verbose=verbose)
     if not seed_ids:
-        print("(no anchors resolved to a seed paper — nothing to seed recommendations with)")
-        return
+        if verbose:
+            print("(no anchors resolved to a seed paper — nothing to seed recommendations with)")
+        return []
 
     resp = request_with_retry(
         "POST", f"{RECS_API}/papers/",
-        params={"fields": "title,year,venue,url,externalIds", "limit": TOP_N_RECOMMENDATIONS},
+        params={"fields": "title,year,venue,url,externalIds", "limit": limit},
         json={"positivePaperIds": seed_ids, "negativePaperIds": []},
     )
     if resp.status_code != 200:
-        print(f"(recommendations request failed: {resp.status_code} {resp.text[:200]})")
-        return
+        if verbose:
+            print(f"(recommendations request failed: {resp.status_code} {resp.text[:200]})")
+        return []
 
-    papers = resp.json().get('recommendedPapers', [])
-    if not papers:
-        print("(no recommendations returned)")
-        return
-
-    for p in papers:
-        print(f"• {p.get('title')} ({p.get('year')}) — {p.get('venue') or 'venue unknown'}")
-        print(f"   {p.get('url')}")
+    return resp.json().get('recommendedPapers', [])
 
 
-def search_author_candidates(name):
+def search_author_candidates(name, verbose=True):
     resp = request_with_retry(
         "GET", f"{GRAPH_API}/author/search",
         params={"query": name, "fields": "name,affiliations,paperCount,hIndex,url"},
     )
     if resp.status_code != 200:
-        print(f"   (search failed: {resp.status_code})")
-        return
+        if verbose:
+            print(f"   (search failed: {resp.status_code})")
+        return []
 
     candidates = resp.json().get('data', [])[:3]
-    if not candidates:
-        print("   (no candidates found)")
-        return
+    if verbose:
+        if not candidates:
+            print("   (no candidates found)")
+        for c in candidates:
+            affil = ", ".join(c.get('affiliations') or []) or "affiliation unknown"
+            print(f"   candidate id={c['authorId']} — {c['name']} — {affil} — {c['paperCount']} papers, h-index {c['hIndex']}")
+            print(f"   {c['url']}")
+    return candidates
 
-    for c in candidates:
-        affil = ", ".join(c.get('affiliations') or []) or "affiliation unknown"
-        print(f"   candidate id={c['authorId']} — {c['name']} — {affil} — {c['paperCount']} papers, h-index {c['hIndex']}")
-        print(f"   {c['url']}")
 
-
-def recent_papers_for_author(author_id):
+def recent_papers_for_author(author_id, since_days=RECENT_DAYS, verbose=True):
+    """Returns a list of paper dicts published in the last `since_days` days."""
     resp = request_with_retry(
         "GET", f"{GRAPH_API}/author/{author_id}/papers",
-        params={"fields": "title,year,venue,externalIds,url,publicationDate", "limit": 20},
+        params={"fields": "title,year,venue,externalIds,url,publicationDate,abstract", "limit": 20},
     )
     if resp.status_code != 200:
-        print(f"   (papers request failed: {resp.status_code})")
-        return
+        if verbose:
+            print(f"   (papers request failed: {resp.status_code})")
+        return []
 
     papers = resp.json().get('data', [])
-    cutoff = time.time() - RECENT_DAYS * 86400
+    cutoff = time.time() - since_days * 86400
     recent = []
     for p in papers:
         pub_date = p.get('publicationDate')
@@ -149,23 +158,30 @@ def recent_papers_for_author(author_id):
         if pub_ts >= cutoff:
             recent.append(p)
 
-    if not recent:
-        print(f"   (nothing in the last {RECENT_DAYS} days)")
-        return
+    if verbose:
+        if not recent:
+            print(f"   (nothing in the last {since_days} days)")
+        for p in recent:
+            print(f"   • {p.get('title')} ({p.get('publicationDate')}) — {p.get('venue') or 'venue unknown'}")
+            print(f"     {p.get('url')}")
+    return recent
 
-    for p in recent:
-        print(f"   • {p.get('title')} ({p.get('publicationDate')}) — {p.get('venue') or 'venue unknown'}")
-        print(f"     {p.get('url')}")
 
+if __name__ == '__main__':
+    anchors = load_anchors()
+    authors = load_authors()
 
-print("=== Similar to your work ===\n")
-get_recommendations()
+    print("=== Similar to your work ===\n")
+    recs = get_recommendations(anchors)
+    for p in recs:
+        print(f"• {p.get('title')} ({p.get('year')}) — {p.get('venue') or 'venue unknown'}")
+        print(f"   {p.get('url')}")
 
-print("\n=== From authors you follow ===\n")
-for author in authors:
-    print(f"\n{author['name']} ({author.get('note') or 'no note'})")
-    if author.get('semantic_scholar_id'):
-        recent_papers_for_author(author['semantic_scholar_id'])
-    else:
-        search_author_candidates(author['name'])
-    time.sleep(3)  # be polite to the unauthenticated rate limit
+    print("\n=== From authors you follow ===\n")
+    for author in authors:
+        print(f"\n{author['name']} ({author.get('note') or 'no note'})")
+        if author.get('semantic_scholar_id'):
+            recent_papers_for_author(author['semantic_scholar_id'])
+        else:
+            search_author_candidates(author['name'])
+        time.sleep(3)  # be polite to the unauthenticated rate limit

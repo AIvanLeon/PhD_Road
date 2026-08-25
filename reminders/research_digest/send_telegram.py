@@ -29,7 +29,7 @@ if not BOT_TOKEN or not CHAT_ID:
     raise SystemExit(
         "Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID.\n"
         "Set them as environment variables, or create "
-        "reminders/conferences_internships/.env (see .env.example)."
+        "reminders/research_digest/.env (see .env.example)."
     )
 
 message_path = Path('data/message.txt')
