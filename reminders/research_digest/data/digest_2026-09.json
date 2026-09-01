@@ -1,0 +1,57 @@
+{
+  "similar": [
+    {
+      "title": "Ab initio-based Deep-Learning Prediction of Carrier Mobility in Strongly Anharmonic Materials",
+      "url": "https://www.semanticscholar.org/paper/098f643a4c154622ef0ed5125dbfb7917f524b3d",
+      "key": "ARXIV:2608.19053"
+    },
+    {
+      "title": "Nonadiabatic molecular dynamics on real-time excited-state surfaces via machine learning Hamiltonians",
+      "url": "https://www.semanticscholar.org/paper/c77b981179846b7d7053f3e0e0b0fc5fb6432655",
+      "key": "DOI:10.1103/9wbw-h87d"
+    },
+    {
+      "title": "First-Principles Atomistic Structure and Dynamics of Polyethylene During High-Pressure Radical Polymerization via Machine Learning Force Fields",
+      "url": "https://www.semanticscholar.org/paper/1a6a10c05ea0a9e15c2d0af02001139bb9fc976b",
+      "key": "ARXIV:2608.21741"
+    },
+    {
+      "title": "Generalizing Abell-Tersoff bond-order potential with explicit high-order many-body correlations for robust extrapolation of potential energy surfaces",
+      "url": "https://www.semanticscholar.org/paper/11383cf9d43527111c3371eb07e6f8a06de40d1c",
+      "key": "ARXIV:2608.22933"
+    },
+    {
+      "title": "Machine-learned exchange-correlation functionals for molecules, solids, and reactive surfaces",
+      "url": "https://www.semanticscholar.org/paper/6c8874de0b05ff3f82ef8a6bfb46305e8762c88b",
+      "key": "ARXIV:2608.21525"
+    }
+  ],
+  "authors": [],
+  "other_authors": [],
+  "field_watch": {
+    "self-driving laboratories": [
+      {
+        "title": "Role of the human-in-the-loop in emerging self-driving laboratories for heterogeneous catalysis",
+        "url": "https://www.semanticscholar.org/paper/3a52f968f8ddbfa170c3ca8935903d58cf30a6c1",
+        "key": "DOI:10.1038/s41929-024-01275-5"
+      },
+      {
+        "title": "Self-Driving Laboratories for Chemistry and Materials Science",
+        "url": "https://www.semanticscholar.org/paper/8afe5a5b28e37496bb24d5575d0348e7df663737",
+        "key": "DOI:10.1021/acs.chemrev.4c00055"
+      }
+    ],
+    "AI for chemistry": [
+      {
+        "title": "Generative AI for computational chemistry: A roadmap to predicting emergent phenomena",
+        "url": "https://www.semanticscholar.org/paper/9fdbf3c028e9f1a69adeb594de78fe98b92af326",
+        "key": "DOI:10.1073/pnas.2415655121"
+      },
+      {
+        "title": "xChemAgents: Agentic AI for Explainable Quantum Chemistry",
+        "url": "https://www.semanticscholar.org/paper/557bc484260d11b87ffcea21507c159120067bf2",
+        "key": "DOI:10.48550/arXiv.2505.20574"
+      }
+    ]
+  }
+}
