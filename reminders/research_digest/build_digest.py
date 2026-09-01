@@ -13,9 +13,10 @@ silently.
 
 import html
 import json
-import time
 from datetime import datetime, timezone
 from pathlib import Path
+
+import requests
 
 from fetch_papers import get_recommendations, recent_papers_for_author, search_papers_by_keyword, load_anchors, load_authors
 
@@ -69,7 +70,6 @@ def gather_author_papers(authors, seen_ids, since_days):
         if not author.get('semantic_scholar_id'):
             continue
         papers = recent_papers_for_author(author['semantic_scholar_id'], since_days=since_days, verbose=False)
-        time.sleep(1)  # be polite to the unauthenticated rate limit
         for p in papers:
             if paper_key(p) not in seen_ids:
                 by_author.append((author['name'], p))
@@ -88,7 +88,6 @@ def gather_field_watch(field_watch_config, seen_ids):
         candidates = search_papers_by_keyword(keyword, limit=per_keyword + 8, verbose=False)
         fresh = [p for p in candidates if paper_key(p) not in seen_ids]
         results[keyword] = fresh[:per_keyword]
-        time.sleep(1)  # be polite to the unauthenticated rate limit
     return results
 
 
@@ -144,9 +143,23 @@ def main():
     anchors = load_anchors()
     authors = load_authors()
 
-    similar_pool = gather_similar(anchors, seen_ids)
-    author_pool = gather_author_papers(authors, seen_ids, since_days)
-    field_watch = gather_field_watch(config.get('field_watch', {}), seen_ids)
+    try:
+        similar_pool = gather_similar(anchors, seen_ids)
+    except requests.exceptions.RequestException as exc:
+        print(f"(similar-to-your-work section failed, skipping: {exc})")
+        similar_pool = []
+
+    try:
+        author_pool = gather_author_papers(authors, seen_ids, since_days)
+    except requests.exceptions.RequestException as exc:
+        print(f"(from-authors section failed, skipping: {exc})")
+        author_pool = []
+
+    try:
+        field_watch = gather_field_watch(config.get('field_watch', {}), seen_ids)
+    except requests.exceptions.RequestException as exc:
+        print(f"(field-watch section failed, skipping: {exc})")
+        field_watch = {}
 
     # Rank author papers by keyword relevance first, recency as tiebreaker
     author_pool.sort(key=lambda item: (keyword_score(item[1], keywords), item[1].get('publicationDate') or ''), reverse=True)

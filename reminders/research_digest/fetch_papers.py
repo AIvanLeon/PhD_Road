@@ -48,15 +48,36 @@ load_env_file()
 S2_API_KEY = os.environ.get('S2_API_KEY')  # optional — moves off the shared unauthenticated rate limit
 
 
+MIN_REQUEST_INTERVAL = 1.1  # S2's authenticated key allows 1 req/sec cumulative across all endpoints
+_last_request_at = 0.0
+
+
+def _throttle():
+    global _last_request_at
+    wait = MIN_REQUEST_INTERVAL - (time.monotonic() - _last_request_at)
+    if wait > 0:
+        time.sleep(wait)
+    _last_request_at = time.monotonic()
+
+
 def request_with_retry(method, url, **kwargs):
     headers = kwargs.pop('headers', {})
     if S2_API_KEY:
         headers['x-api-key'] = S2_API_KEY
+    last_exc = None
     for attempt in range(MAX_RETRIES):
-        resp = requests.request(method, url, timeout=15, headers=headers, **kwargs)
+        _throttle()
+        try:
+            resp = requests.request(method, url, timeout=15, headers=headers, **kwargs)
+        except requests.exceptions.RequestException as exc:
+            last_exc = exc
+            time.sleep(10 * (attempt + 1))
+            continue
         if resp.status_code != 429:
             return resp
         time.sleep(10 * (attempt + 1))
+    if last_exc:
+        raise last_exc
     return resp
 
 
@@ -108,8 +129,12 @@ def build_seed_ids(anchors, verbose=True):
         if a.get('doi'):
             seed_ids.append(f"DOI:{a['doi']}")
             continue
-        seed_id = find_seed_id_by_title(a['title'], verbose=verbose)
-        time.sleep(1)
+        try:
+            seed_id = find_seed_id_by_title(a['title'], verbose=verbose)
+        except requests.exceptions.RequestException as exc:
+            if verbose:
+                print(f"   (S2 request failed for \"{a['title']}\", skipping: {exc})")
+            seed_id = None
         if seed_id:
             seed_ids.append(seed_id)
     return seed_ids
