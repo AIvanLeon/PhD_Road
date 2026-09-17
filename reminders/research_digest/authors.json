@@ -114,6 +114,11 @@
       "name": "Anna T. Bui",
       "semantic_scholar_id": "2277721111",
       "note": "Nanoconfinement, classical DFT for liquids, ML for ab initio multiscale modeling"
+    },
+    {
+      "name": "J. Zavadlav",
+      "semantic_scholar_id": "4817767",
+      "note": "MLIP, multiscale/adaptive-resolution MD"
     }
   ]
 }
