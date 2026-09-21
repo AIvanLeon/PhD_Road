@@ -119,6 +119,11 @@
       "name": "J. Zavadlav",
       "semantic_scholar_id": "4817767",
       "note": "MLIP, multiscale/adaptive-resolution MD"
+    },
+    {
+      "name": "Christoph Schran",
+      "semantic_scholar_id": "15952831",
+      "note": "MLIP, ab initio MD"
     }
   ]
 }
