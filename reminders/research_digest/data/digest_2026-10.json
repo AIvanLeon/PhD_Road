@@ -1,0 +1,80 @@
+{
+  "similar": [
+    {
+      "title": "Electrostatic Phenomenology Benchmarks for Machine-Learned Interatomic Potentials in Electrochemistry: Beyond the Energy-Force Metric",
+      "url": "https://www.semanticscholar.org/paper/dfb4bb0c8172e8c284fa1e4f97f12106b7975b9c",
+      "key": "ARXIV:2608.14153"
+    },
+    {
+      "title": "Interatomic Potential Prediction Based on Charge Equilibration and Equivariant Transformer",
+      "url": "https://www.semanticscholar.org/paper/ed075e6ca6a1d003bb50067a84f3f033749d862b",
+      "key": "DOI:10.70267/cai.26v3n4.3545"
+    },
+    {
+      "title": "Accelerating dynamic simulations of photoexcited materials and their evolution by electron-informed machine learning",
+      "url": "https://www.semanticscholar.org/paper/d2728abd580271aac371f9478e9ddf3581e1588c",
+      "key": "ARXIV:2609.01492"
+    },
+    {
+      "title": "Multiscale Investigation of Triboelectric Nanogenerator: An Expanded DFT Calculation Based on Machine Learning",
+      "url": "https://www.semanticscholar.org/paper/1975a6285071a798a763552ea1f34a02eccdf407",
+      "key": "DOI:10.1021/acsomega.6c06130"
+    },
+    {
+      "title": "Studying Heat Conduction Properties by Using Machine Learning Potentials: a Brief Review",
+      "url": "https://www.semanticscholar.org/paper/0b5f625a4f0003941ddcafadcf308d5a0f970c26",
+      "key": "DOI:10.1088/0256-307X/43/8/080802"
+    }
+  ],
+  "authors": [
+    {
+      "name": "Maria K. Chan",
+      "title": "Machine Learning\nInteratomic Potentials for Modeling\nSolid-State Batteries",
+      "url": "https://www.semanticscholar.org/paper/207ad60075a6ea02046e505d5bde6a67161aa1fc",
+      "key": "DOI:10.1021/acs.chemmater.6c01051"
+    },
+    {
+      "name": "Shyue Ping Ong",
+      "title": "Machine Learning\nInteratomic Potentials for Modeling\nSolid-State Batteries",
+      "url": "https://www.semanticscholar.org/paper/207ad60075a6ea02046e505d5bde6a67161aa1fc",
+      "key": "DOI:10.1021/acs.chemmater.6c01051"
+    },
+    {
+      "name": "Chris Wolverton",
+      "title": "Crystal Structure Prediction of Inorganic Materials: A Benchmark and Modern Evaluation",
+      "url": "https://www.semanticscholar.org/paper/ce7ce60a51b5b834754a00a7b21577972cedb2f1",
+      "key": "DOI:10.1002/aidi.70162"
+    }
+  ],
+  "other_authors": [
+    "Lyderic Bocquet",
+    "Mark Hersam",
+    "Olexandr Isayev"
+  ],
+  "field_watch": {
+    "self-driving laboratories": [
+      {
+        "title": "IvoryOS: an interoperable web interface for orchestrating Python-based self-driving laboratories",
+        "url": "https://www.semanticscholar.org/paper/4a66c17cbc336cec1e3c630b0f499768736ec214",
+        "key": "DOI:10.1038/s41467-025-60514-w"
+      },
+      {
+        "title": "Engineering principles for self-driving laboratories",
+        "url": "https://www.semanticscholar.org/paper/07018dfd6e2e7b05c2842fa6a90ecf7f5140f17c",
+        "key": "DOI:10.1038/s44286-025-00217-7"
+      }
+    ],
+    "AI for chemistry": [
+      {
+        "title": "Artificial Intelligence (AI) for More Sustainable Chemistry and a Greener Future",
+        "url": "https://www.semanticscholar.org/paper/7cd50ecca27dc18ef57c869b2352c08636c6471c",
+        "key": "DOI:10.1021/acssuschemeng.5c00853"
+      },
+      {
+        "title": "AI-Professional Development Model for Chemistry Teacher: Artificial Intelligence in Chemistry Education",
+        "url": "https://www.semanticscholar.org/paper/536df54b98d446f3692783c38dcc28e2e5d0a17d",
+        "key": "DOI:10.55549/jeseh.741"
+      }
+    ]
+  }
+}
