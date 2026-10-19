@@ -1,13 +1,5 @@
 {
   "seen": {
-    "chem:1788202800:Northwestern Chemistry Special Seminar: Hiang Kwee Lee (Nanyang Technological University)": "2026-10-15T00:00:00+00:00",
-    "chem:1788379200:2026 Myron L. & Muriel S. Bender Summer Lectures in Organic Chemistry": "2026-10-17T00:00:00+00:00",
-    "chem:1788451200:2026 Myron L. & Muriel S. Bender Summer Lectures in Organic Chemistry": "2026-10-18T00:00:00+00:00",
-    "pip:/event/644656": "2026-10-15T00:00:00+00:00",
-    "pip:/event/638968": "2026-10-17T00:00:00+00:00",
-    "pip:/event/638969": "2026-10-18T00:00:00+00:00",
-    "pip:/event/645094": "2026-10-18T00:00:00+00:00",
-    "pip:/event/633645": "2026-10-19T00:00:00+00:00",
     "pip:/event/644437": "2026-10-24T00:00:00+00:00",
     "pip:/event/644648": "2026-10-24T00:00:00+00:00",
     "pip:/event/633646": "2026-10-26T00:00:00+00:00",
@@ -178,6 +170,13 @@
     "pip:/event/647296": "2026-11-27T00:00:00+00:00",
     "pip:/event/647315": "2026-11-27T00:00:00+00:00",
     "pip:/event/646755": "2026-11-27T00:00:00+00:00",
-    "pip:/event/646884": "2026-11-27T00:00:00+00:00"
+    "pip:/event/646884": "2026-11-27T00:00:00+00:00",
+    "chem:1793120400:Northwestern Chemistry Faculty Seminar: Veronica Berns (Faculty Only)": "2026-12-11T00:00:00+00:00",
+    "chem:1793134800:MSE Colloquium - \"Self-assembly models for complex crystals, magic clusters, and phase transformations\"": "2026-12-11T00:00:00+00:00",
+    "chem:1793211300:INQUIRE Seminar: Dana Z. Anderson, Infleqtion": "2026-12-12T00:00:00+00:00",
+    "chem:1793217600:Charles D. Hurd Lectures": "2026-12-12T00:00:00+00:00",
+    "chem:1793217600:N\u2019Tangled w/ Ilai Schwartz, NVision \u2013 Oct. 28": "2026-12-12T00:00:00+00:00",
+    "chem:1793314800:2026 Halloween Demo Show": "2026-12-13T00:00:00+00:00",
+    "chem:1793379600:CCSS October Seminar: Ramses Snoeckx": "2026-12-14T00:00:00+00:00"
   }
 }
