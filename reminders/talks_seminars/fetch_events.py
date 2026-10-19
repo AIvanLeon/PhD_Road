@@ -10,13 +10,32 @@ source an event came from:
   {"source", "title", "date", "time", "location", "link", "key"}
 """
 
+import os
 import re
+import tempfile
 import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 
+import certifi
 import requests
 from bs4 import BeautifulSoup
+
+
+EXTRA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'certs', 'emsign_root_ca_g1.pem')
+
+
+def chemistry_ca_bundle():
+    """chemistry.northwestern.edu chains to emSign Root CA - G1, which newer
+    certifi releases no longer ship — append it to certifi's bundle."""
+    with open(certifi.where()) as f:
+        bundle = f.read()
+    with open(EXTRA_ROOT) as f:
+        bundle += '\n' + f.read()
+    tmp = tempfile.NamedTemporaryFile('w', suffix='.pem', delete=False)
+    tmp.write(bundle)
+    tmp.close()
+    return tmp.name
 
 
 def fetch_chemistry_events(config):
@@ -28,7 +47,8 @@ def fetch_chemistry_events(config):
     start = int(now.timestamp())
     end = int((now + timedelta(days=cfg['lookahead_days'])).timestamp())
 
-    resp = requests.get(cfg['feed_url'], params={'start': start, 'end': end}, timeout=15)
+    resp = requests.get(cfg['feed_url'], params={'start': start, 'end': end}, timeout=15,
+                        verify=chemistry_ca_bundle())
     resp.raise_for_status()
 
     root = ET.fromstring(resp.content)
