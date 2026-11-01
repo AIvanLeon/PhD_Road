@@ -1,0 +1,82 @@
+{
+  "similar": [],
+  "authors": [
+    {
+      "name": "Chris Wolverton",
+      "title": "Density Functional\nTheory and Data-Driven Insights\ninto Hydrogen Incorporation and Transport in Ternary ABO3 Perovskites",
+      "url": "https://www.semanticscholar.org/paper/73ff2141efaa43f79706dbbe46b9359960e77eec",
+      "key": "DOI:10.1021/acs.chemmater.6c02724"
+    },
+    {
+      "name": "Shyue Ping Ong",
+      "title": "Risk-Controlled DFT Selection for Machine-Learned Interatomic Potentials",
+      "url": "https://www.semanticscholar.org/paper/3fed85569318bc4e4a39a454d00935cb7abd29ed",
+      "key": "ARXIV:2610.19630"
+    },
+    {
+      "name": "Olexandr Isayev",
+      "title": "AIMNet2-rxn: A machine-learned potential for generalized reaction modeling on a millions-of-pathways scale",
+      "url": "https://www.semanticscholar.org/paper/6770a8b2c91b9615ce9b190f4d6acb4166a698f1",
+      "key": "DOI:10.1126/sciadv.aea1557"
+    },
+    {
+      "name": "Ting Xu",
+      "title": "Molecular Origins of Catalysis in Random Heteropolymer Enzyme Mimics through All-Atom Simulations.",
+      "url": "https://www.semanticscholar.org/paper/b77927fbd9ec7a8f1b221f28c12d07c46a1377ac",
+      "key": "DOI:10.1021/acs.jpcb.6c05638"
+    },
+    {
+      "name": "Julia Westermayr",
+      "title": "Repurposing Approved Chemotherapeutics as Intrinsic Photosensitizers for Single-Molecule Chemophototherapy",
+      "url": "https://www.semanticscholar.org/paper/a866b42166ec843ddce2ae4461aac24b1a56f5d8",
+      "key": "DOI:10.1021/acs.jmedchem.6c02353"
+    },
+    {
+      "name": "Lyderic Bocquet",
+      "title": "Water at the molecular frontier",
+      "url": "https://www.semanticscholar.org/paper/e60c03fcfc93e12de5507d4ee15a2981e248043c",
+      "key": "ARXIV:2610.37581"
+    },
+    {
+      "name": "Angelos Michaelides",
+      "title": "Water at the molecular frontier",
+      "url": "https://www.semanticscholar.org/paper/e60c03fcfc93e12de5507d4ee15a2981e248043c",
+      "key": "ARXIV:2610.37581"
+    },
+    {
+      "name": "Olexandr Isayev",
+      "title": "Efficient and Accurate\nLigand Strain Calculations\nin Solution with the AIMNet2 Neural Network Potential",
+      "url": "https://www.semanticscholar.org/paper/26655ddda1137f466ed5b7603266a554c70a61df",
+      "key": "DOI:10.1021/acs.jcim.6c02468"
+    }
+  ],
+  "other_authors": [
+    "P. Cossio"
+  ],
+  "field_watch": {
+    "self-driving laboratories": [
+      {
+        "title": "A dynamic knowledge graph approach to distributed self-driving laboratories",
+        "url": "https://www.semanticscholar.org/paper/d37b9523d1d285bf1f09c16b6f086dc609c57245",
+        "key": "DOI:10.1038/s41467-023-44599-9"
+      },
+      {
+        "title": "The future of self-driving laboratories: From Human in the Loop Interactive AI to Gamification",
+        "url": "https://www.semanticscholar.org/paper/526cf2eb9bb3c748afd0549fbac3331d464e9207",
+        "key": "DOI:10.1039/d4dd00040d"
+      }
+    ],
+    "AI for chemistry": [
+      {
+        "title": "Generative AI for Method Development in Analytical Chemistry: A New Paradigm in Experimental Design and Optimization",
+        "url": "https://www.semanticscholar.org/paper/8c2f1a8ab31021204733e28fdcdd8aba00033efe",
+        "key": "DOI:10.70080/2790-7732.1079"
+      },
+      {
+        "title": "The Future of ChatGPT in Medicinal Chemistry: Harnessing AI for Accelerated Drug Discovery",
+        "url": "https://www.semanticscholar.org/paper/fbd6b1cc343df72d3248b798d9d5c865e7cb5123",
+        "key": "DOI:10.1002/slct.202304359"
+      }
+    ]
+  }
+}
