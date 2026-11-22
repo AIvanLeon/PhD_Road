@@ -102,14 +102,15 @@ def analyze(fx, table, cfg, odds=None):
     pick_type, pick, fav = choose_pick(edge, home, away, cfg)
     late = max(home["remaining"], away["remaining"]) <= cfg["stakes"]["final_rounds"]
     motivated = [t for t in (home, away) if statuses[t["id"]]]
+    rule = "form"
     if late and cfg["stakes"].get("motivated_double_chance") and len(motivated) == 1:
-        fav = motivated[0]
+        fav, rule = motivated[0], "motivated"
         pick_type, pick = "close", f"Double chance {fav['name']} (win or draw) — still playing for something, rival isn't"
 
     fav_side = "home" if fav["id"] == home["id"] else "away"
     return {
         "home": home, "away": away, "statuses": statuses, "late": late,
-        "edge": edge, "pick": pick, "pick_type": pick_type, "fav_id": fav["id"],
+        "edge": edge, "rule": rule, "pick": pick, "pick_type": pick_type, "fav_id": fav["id"],
         "odds": odds, "pick_odds": pick_odds(pick_type, fav_side, odds),
         "round": max(home["played"], away["played"]) + 1,
     }

@@ -1,0 +1,26 @@
+{
+  "double_chance": {
+    "hits": 65,
+    "n": 96
+  },
+  "double_chance_motivated": {
+    "hits": 18,
+    "n": 27
+  },
+  "draw": {
+    "hits": 32,
+    "n": 108
+  },
+  "win_gap_0.7+": {
+    "hits": 62,
+    "n": 132
+  },
+  "win_gap_1.0+": {
+    "hits": 78,
+    "n": 159
+  },
+  "win_gap_1.5+": {
+    "hits": 102,
+    "n": 144
+  }
+}

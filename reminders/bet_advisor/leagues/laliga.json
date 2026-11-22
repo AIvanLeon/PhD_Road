@@ -1,0 +1,50 @@
+{
+  "league": "esp.1",
+  "league_name": "LaLiga",
+  "history_start": "202408",
+  "round_name": "Matchweek",
+  "table_note": "top 5 Champions League · 6th Europa League · bottom 3 relegated",
+  "lookahead_days": 7,
+  "kickoff_grace_minutes": 7,
+  "form_games": 8,
+  "weights": {
+    "form_ppg": 1.0,
+    "form_sot_diff": 0.1
+  },
+  "home_advantage": 0.3,
+  "stakes": {
+    "final_rounds": 6,
+    "zones": [
+      {
+        "name": "the title",
+        "top": 1,
+        "bonus": 0.3
+      },
+      {
+        "name": "Champions League (top 5)",
+        "top": 5,
+        "bonus": 0.3
+      },
+      {
+        "name": "Europa League (top 6)",
+        "top": 6,
+        "bonus": 0.2
+      },
+      {
+        "name": "survival (avoid bottom 3)",
+        "top": 17,
+        "bonus": 0.3
+      }
+    ],
+    "nothing_to_play_penalty": 0.2,
+    "motivated_double_chance": true
+  },
+  "thresholds": {
+    "draw": 0.2,
+    "double_chance": 0.35,
+    "win": 0.7
+  },
+  "key_players": 3,
+  "backtest_min_played": 1,
+  "rounds_per_team": 38
+}

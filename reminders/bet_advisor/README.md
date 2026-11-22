@@ -1,15 +1,17 @@
-# Bet Advisor (Liga MX + Premier League)
+# Bet Advisor (Liga MX + European picks)
 
 A weekly Telegram message with a lean for every Liga MX match in the next 7 days, based **only on the current tournament** (no past seasons).
 
 ## Files
 
-- `leagues/liga_mx.json`, `leagues/premier_league.json` — Per-league settings (ESPN league code, table zones, model weights/thresholds). Every script takes `--league <name>` (default `liga_mx`)
+- `leagues/{liga_mx,premier_league,laliga,serie_a}.json` — Per-league settings (ESPN league code, table zones, model weights/thresholds). Every script takes `--league <name>` (default `liga_mx`)
 - `match_details.py` — Per-match DraftKings odds (1X2, Over/Under), team shots/shots on target/red cards and player stats from ESPN's summary endpoint; finished matches cached in `data/match_cache/`
 - `fetch_data.py` — Pulls the season's matches from ESPN's public API (no key) and computes the table and last-N form; run directly for a table preview
 - `players.py` — Top scorers/assisters per team and last-match availability flags
 - `build_message.py` — Rates each fixture and writes `data/message.txt`
 - `backtest.py` — Replays the season so far and scores every pick the model would have made
+- `parlay.py` — Combined European message: top 3 most likely picks each from Premier League, LaLiga and Serie A, as 3-pick parlays + the 9-pick total (`--backtest` replays every past week)
+- `ranking.py` — Estimated hit probability per pick from backtests; `python ranking.py --league <name>` refreshes `leagues/calibration/<name>.json`
 - `liguilla.py` — Playoff model + replay of every Liguilla since Clausura 2024 (`python liguilla.py`)
 - `send_telegram.py` — Sends it (skips quietly if the message is empty) via `@PhDork_bot` (same bot/secrets as the other reminders)
 
@@ -40,6 +42,25 @@ Same model, separate settings tuned on 2024-25 → 2026-27 (`python backtest.py 
 
 Backtest, all 837 matches: win picks 54%, double chance 71%, last-6-weeks picks 67/98 (+11.2u on 51 with odds); overall about break-even at the odds (+0.5u on 269). Draws were unusually common in 2025-26 and 2026-27 (≈30% vs ≈25% priced in), which is why "always bet the draw" shows a profit — don't read it as an edge.
 
+## LaLiga and Serie A
+
+Same model as the Premier League (8-game form, shots on target, zones, motivation rule in the last 6 matchweeks). Zones from ESPN: Serie A top 4 Champions League / top 6 Europa League; LaLiga top 5 Champions League / 6th Europa League; both bottom 3 relegated. Only change: LaLiga home advantage 0.3 (−17.0u vs −24.6u at 0.2). Serie A was fine as is (+4.3u, double chance 74%).
+
+## European picks (parlay)
+
+`parlay.py` replaces the Premier League message. For each league it runs the model on the next 7 days, estimates each pick's hit probability from `leagues/calibration/<league>.json` (how often that pick type + form-gap size came true since 2024-25, smoothed), and keeps the 3 most likely (one pick per team). It shows each league's 3-pick parlay and the 9-pick total with DraftKings odds.
+
+Replay of every past week (`python parlay.py --backtest`, saved to `leagues/calibration/parlay_record.json` and quoted in the message):
+
+| | Single picks | 3-pick parlay hit | Parlay profit (weeks with odds) |
+|---|---|---|---|
+| Premier League | 62% | 29% of weeks | −1.5u on 30 |
+| LaLiga | 67% | 30% | −5.9u on 34 |
+| Serie A | 69% | 40% | +24.7u on 33 |
+| All 9 | — | 1/72 weeks | −28.0u on 28 |
+
+Estimates are in-sample (same seasons they were measured on); refresh with `ranking.py` + `parlay.py --backtest` after each season.
+
 ## Liguilla
 
 Rules (Apertura 2026): top 8, no play-in; 1v8, 2v7, 3v6, 4v5, two legs, **no away goals**. The higher seed hosts leg 2 and, in quarterfinals and semifinals, **goes through on a tied aggregate**; the final goes to extra time + penalties.
@@ -69,9 +90,10 @@ python fetch_data.py        # preview the computed table
 python build_message.py     # builds data/message.txt
 python backtest.py          # how the model would have done this season
 python backtest.py --all    # every tournament since Clausura 2024 (odds only from 2026)
-python build_message.py --league premier_league
-python backtest.py --all --league premier_league
+python parlay.py                      # combined European message
+python parlay.py --backtest           # weekly replay of the top-3 picks / parlays
+python ranking.py --league serie_a    # refresh a league's calibration
 python send_telegram.py     # sends it
 ```
 
-Runs every Thursday via `.github/workflows/weekly-bet-advisor.yml` (or manually from the Actions tab), sending one message per league (Premier League only on Thursdays), plus Mondays with `--liguilla-only` for Liga MX, which only sends when there are Liguilla matches that week. ESPN scoreboards for finished months are cached in `data/scoreboard_cache/`.
+Runs every Thursday via `.github/workflows/weekly-bet-advisor.yml` (or manually from the Actions tab), sending the Liga MX message and the combined European picks (Thursdays only), plus Mondays with `--liguilla-only` for Liga MX, which only sends when there are Liguilla matches that week. ESPN scoreboards for finished months are cached in `data/scoreboard_cache/`.

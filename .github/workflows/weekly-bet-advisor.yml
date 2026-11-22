@@ -1,4 +1,4 @@
-name: Weekly Bet Advisor (Liga MX + Premier League)
+name: Weekly Bet Advisor (Liga MX + European picks)
 
 on:
   schedule:
@@ -33,12 +33,12 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python send_telegram.py
 
-      - name: Build Premier League message
+      - name: Build European picks message (Premier League, LaLiga, Serie A)
         if: github.event.schedule != '0 15 * * 1'
         working-directory: reminders/bet_advisor
-        run: python build_message.py --league premier_league
+        run: python parlay.py
 
-      - name: Send Premier League to Telegram
+      - name: Send European picks to Telegram
         if: github.event.schedule != '0 15 * * 1'
         working-directory: reminders/bet_advisor
         env:

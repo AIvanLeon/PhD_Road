@@ -68,8 +68,8 @@ def replay(events, cfg, details=None):
             }
 
         results.append({
-            "round": round_no, "match": f"{ev['home_name']} {ev['home_score']}-{ev['away_score']} {ev['away_name']}",
-            "pick": a["pick"], "pick_type": a["pick_type"],
+            "id": ev["id"], "round": round_no, "match": f"{ev['home_name']} {ev['home_score']}-{ev['away_score']} {ev['away_name']}",
+            "pick": a["pick"], "pick_type": a["pick_type"], "edge": a["edge"], "rule": a["rule"],
             "correct": correct, "pick_odds": a["pick_odds"], "profit": profit(correct, a["pick_odds"]),
             "draw": winner is None, "home_won": winner == ev["home_id"], "higher_won": winner == higher["id"],
             "late": a["late"], **book,
