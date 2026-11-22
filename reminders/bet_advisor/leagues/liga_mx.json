@@ -1,9 +1,10 @@
 {
   "league": "mex.1",
   "league_name": "Liga MX",
+  "history_start": "202401",
+  "round_name": "Jornada",
+  "table_note": "top 8 make the Liguilla",
   "lookahead_days": 7,
-  "playoff_spots": 8,
-  "top_seeds": 4,
   "form_games": 4,
   "weights": {
     "form_ppg": 1.0,
@@ -12,8 +13,23 @@
   "home_advantage": 0.1,
   "stakes": {
     "final_rounds": 3,
-    "fighting_bonus": 0.3,
-    "seed_race_bonus": 0.15,
+    "zones": [
+      {
+        "name": "Liguilla (top 8)",
+        "top": 8,
+        "bonus": 0.3
+      },
+      {
+        "name": "a top-4 seed",
+        "top": 4,
+        "bonus": 0.15
+      },
+      {
+        "name": "1st place",
+        "top": 1,
+        "bonus": 0.15
+      }
+    ],
     "nothing_to_play_penalty": 0.2
   },
   "thresholds": {

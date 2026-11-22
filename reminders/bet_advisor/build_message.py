@@ -9,11 +9,11 @@ in the last match. Writes data/message.txt.
 """
 
 import json
+import sys
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-import sys
 
 from fetch_data import build_table, fetch_current_tournament, upcoming_fixtures
 from match_details import fetch_details
@@ -22,56 +22,40 @@ from players import format_players, key_players
 TZ = ZoneInfo("America/Mexico_City")
 
 
-def load_config():
-    return json.loads(Path("config.json").read_text())
+def load_config(name=None):
+    """leagues/<name>.json; name from `--league <name>` (default liga_mx)."""
+    if name is None:
+        args = sys.argv[1:]
+        name = args[args.index("--league") + 1] if "--league" in args else "liga_mx"
+    return json.loads(Path(f"leagues/{name}.json").read_text())
 
 
-def playoff_status(team, table, spots):
-    """'clinched', 'eliminated' or 'fighting' w.r.t. the top-`spots` cutoff."""
+def zone_undecided(team, table, k):
+    """Can this team still finish on the other side of the top-`k` line?"""
     others = [t for t in table.values() if t["id"] != team["id"]]
-    max_pts = team["points"] + 3 * team["remaining"]
-    can_pass = sum(1 for t in others if t["points"] + 3 * t["remaining"] >= team["points"])
-    already_above = sum(1 for t in others if t["points"] > max_pts)
-    if can_pass < spots:
-        return "clinched"
-    if already_above >= spots:
-        return "eliminated"
-    return "fighting"
+    if team["rank"] <= k:
+        return any(t["rank"] > k and t["points"] + 3 * t["remaining"] >= team["points"] for t in others)
+    kth = sorted(table.values(), key=lambda t: t["rank"])[k - 1]
+    return team["points"] + 3 * team["remaining"] >= kth["points"]
 
 
-def in_seed_race(team, table, top_seeds):
-    """True if a clinched team can still move into/out of the top seeds, or
-    first place is still open between it and someone else."""
-    others = [t for t in table.values() if t["id"] != team["id"]]
-    max_pts = team["points"] + 3 * team["remaining"]
-    ranked = sorted(table.values(), key=lambda t: t["rank"])
-    leader, cutoff = ranked[0], ranked[top_seeds - 1]
-    if team["rank"] == 1:
-        return any(t["points"] + 3 * t["remaining"] >= team["points"] for t in others)
-    if max_pts >= leader["points"]:
-        return True
-    if team["rank"] <= top_seeds:
-        return any(t["rank"] > top_seeds and t["points"] + 3 * t["remaining"] >= team["points"] for t in others)
-    return max_pts >= cutoff["points"]
+def live_zones(team, table, cfg):
+    """Table targets (title, top 8, Champions League, survival, …) still open for this team."""
+    return [z for z in cfg["stakes"]["zones"] if zone_undecided(team, table, z["top"])]
 
 
-def team_status(team, table, cfg):
-    status = playoff_status(team, table, cfg["playoff_spots"])
-    if status == "clinched" and in_seed_race(team, table, cfg["top_seeds"]):
-        return "seed_race"
-    return status
-
-
-def stakes_adjustment(team, status, cfg):
-    final_rounds = cfg["stakes"]["final_rounds"]
-    if team["remaining"] > final_rounds:
+def stakes_adjustment(team, zones, cfg):
+    st = cfg["stakes"]
+    if team["remaining"] > st["final_rounds"]:
         return 0.0
-    lateness = (final_rounds - team["remaining"] + 1) / final_rounds
-    if status == "fighting":
-        return cfg["stakes"]["fighting_bonus"] * lateness
-    if status == "seed_race":
-        return cfg["stakes"]["seed_race_bonus"] * lateness
-    return -cfg["stakes"]["nothing_to_play_penalty"] * lateness
+    lateness = (st["final_rounds"] - team["remaining"] + 1) / st["final_rounds"]
+    if zones:
+        return max(z["bonus"] for z in zones) * lateness
+    return -st["nothing_to_play_penalty"] * lateness
+
+
+def stakes_label(zones):
+    return "🔥 fighting for " + " / ".join(z["name"] for z in zones) if zones else "😴 nothing left to play for"
 
 
 def rating(team, cfg):
@@ -96,9 +80,6 @@ def ordinal(n):
     return f"{n}{suffix}"
 
 
-STATUS_LABEL = {"clinched": "🔒 in Liguilla", "seed_race": "🏆 fighting for a top seed", "eliminated": "❌ out", "fighting": "🔥 fighting for top 8"}
-
-
 def choose_pick(edge, home, away, cfg):
     """(pick_type, text, favoured team) from the home-minus-away rating gap."""
     fav = home if edge >= 0 else away
@@ -114,13 +95,17 @@ def choose_pick(edge, home, away, cfg):
 
 def analyze(fx, table, cfg, odds=None):
     home, away = table[fx["home_id"]], table[fx["away_id"]]
-    statuses = {t["id"]: team_status(t, table, cfg) for t in (home, away)}
+    statuses = {t["id"]: live_zones(t, table, cfg) for t in (home, away)}
     r_home = rating(home, cfg) + stakes_adjustment(home, statuses[home["id"]], cfg)
     r_away = rating(away, cfg) + stakes_adjustment(away, statuses[away["id"]], cfg)
     edge = r_home - r_away + cfg.get("home_advantage", 0)
     pick_type, pick, fav = choose_pick(edge, home, away, cfg)
-
     late = max(home["remaining"], away["remaining"]) <= cfg["stakes"]["final_rounds"]
+    motivated = [t for t in (home, away) if statuses[t["id"]]]
+    if late and cfg["stakes"].get("motivated_double_chance") and len(motivated) == 1:
+        fav = motivated[0]
+        pick_type, pick = "close", f"Double chance {fav['name']} (win or draw) — still playing for something, rival isn't"
+
     fav_side = "home" if fav["id"] == home["id"] else "away"
     return {
         "home": home, "away": away, "statuses": statuses, "late": late,
@@ -148,8 +133,8 @@ def format_match(a, players):
         format_players(players[w["id"]]),
     ]
     if a["late"]:
-        lines.append(f"   Stakes: {h['name']} {STATUS_LABEL[a['statuses'][h['id']]]} · "
-                     f"{w['name']} {STATUS_LABEL[a['statuses'][w['id']]]}")
+        lines.append(f"   Stakes: {h['name']} {stakes_label(a['statuses'][h['id']])} · "
+                     f"{w['name']} {stakes_label(a['statuses'][w['id']])}")
     odds = f" @ {a['pick_odds']:.2f}" if a["pick_odds"] and a["pick_type"] != "skip" else ""
     lines.append(f"   👉 {a['pick']}{odds}")
     return "\n".join(line for line in lines if line)
@@ -177,7 +162,7 @@ def regular_section(events, table, total_rounds, fixtures, details, cfg):
         a["date"] = fx["date"]
         analyses.append(a)
     round_txt = ", ".join(str(r) for r in sorted({a["round"] for a in analyses}))
-    parts = [f"Jornada {round_txt} of {total_rounds} · top {cfg['playoff_spots']} make the Liguilla"]
+    parts = [f"{cfg['round_name']} {round_txt} of {total_rounds} · {cfg['table_note']}"]
     parts += [
         format_match(a, {t["id"]: key_players(t, details, cfg["key_players"]) for t in (a["home"], a["away"])})
         for a in analyses
@@ -196,9 +181,11 @@ def main():
 
     cfg = load_config()
     label, events, lig = fetch_current_tournament(cfg["league"])
+    if not cfg.get("liguilla"):
+        lig = []
     wanted = [e for e in events + lig if e["finished"] or e["status"] == "STATUS_SCHEDULED"]
     details = fetch_details(wanted, cfg["league"])
-    table, total_rounds = build_table(events, cfg["form_games"], details=details)
+    table, total_rounds = build_table(events, cfg["form_games"], cfg.get("rounds_per_team"), details)
     fixtures = [
         fx for fx in upcoming_fixtures(events, cfg["lookahead_days"])
         if table[fx["home_id"]]["remaining"] > 0 and table[fx["away_id"]]["remaining"] > 0
@@ -206,7 +193,7 @@ def main():
     sections = []
     if fixtures and "--liguilla-only" not in sys.argv:
         sections.append(regular_section(events, table, total_rounds, fixtures, details, cfg))
-    lig_text = liguilla_section(events, lig, cfg, details, cfg["lookahead_days"])
+    lig_text = liguilla_section(events, lig, cfg, details, cfg["lookahead_days"]) if lig else ""
     if lig_text:
         sections.append(lig_text)
 

@@ -1,4 +1,4 @@
-name: Weekly Liga MX Bet Advisor
+name: Weekly Bet Advisor (Liga MX + Premier League)
 
 on:
   schedule:
@@ -22,11 +22,24 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Build message
+      - name: Build Liga MX message
         working-directory: reminders/bet_advisor
-        run: python build_message.py ${{ github.event.schedule == '0 15 * * 1' && '--liguilla-only' || '' }}
+        run: python build_message.py --league liga_mx ${{ github.event.schedule == '0 15 * * 1' && '--liguilla-only' || '' }}
 
-      - name: Send to Telegram
+      - name: Send Liga MX to Telegram
+        working-directory: reminders/bet_advisor
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram.py
+
+      - name: Build Premier League message
+        if: github.event.schedule != '0 15 * * 1'
+        working-directory: reminders/bet_advisor
+        run: python build_message.py --league premier_league
+
+      - name: Send Premier League to Telegram
+        if: github.event.schedule != '0 15 * * 1'
         working-directory: reminders/bet_advisor
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

@@ -105,7 +105,7 @@ def _correct(pick_type, fav_id, winner):
 
 def replay_all(cfg):
     rows = []
-    for label, (regular, lig) in fetch_past_tournaments(cfg["league"], liguilla=True).items():
+    for label, (regular, lig) in fetch_past_tournaments(cfg["league"], cfg["history_start"], liguilla=True).items():
         if not lig:
             continue
         details = fetch_details([e for e in regular + lig if e["finished"]], cfg["league"])

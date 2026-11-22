@@ -34,7 +34,7 @@ def profit(correct, odds):
 
 def replay(events, cfg, details=None):
     details = details or {}
-    _, total_rounds = build_table(events, cfg["form_games"])
+    _, total_rounds = build_table(events, cfg["form_games"], cfg.get("rounds_per_team"))
     finished = [e for e in events if e["finished"]]
     played_count = defaultdict(int)
     results = []
@@ -127,7 +127,7 @@ def main():
         return
 
     every = []
-    for label, events in fetch_past_tournaments(cfg["league"]).items():
+    for label, events in fetch_past_tournaments(cfg["league"], cfg["history_start"]).items():
         details = fetch_details([e for e in events if e["finished"]], cfg["league"])
         results = replay(events, cfg, details)
         for r in results:

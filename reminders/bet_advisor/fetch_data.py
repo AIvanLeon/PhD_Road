@@ -25,10 +25,13 @@ def _get(url, **params):
 LIGUILLA_STAGES = ("quarterfinals", "semifinals", "finals")
 
 
-def _classify(season):
+def _classify(season, league):
     """(tournament label, stage) for a season blob, e.g. ('Clausura 2026',
-    'semifinals'); None for play-in games or anything unrecognized."""
+    'semifinals') for Liga MX or ('2026-27', 'regular') for a European
+    league; None for play-in games or anything unrecognized."""
     slug = season.get("slug", "")
+    if league != "mex.1":
+        return (slug[:7], "regular") if slug[:4].isdigit() else None
     if slug.startswith("torneo-"):
         kind, stage = slug.split("-", 1)[1].capitalize(), "regular"
     else:
@@ -54,10 +57,10 @@ def _month_events(league, month, now):
     return batch
 
 
-def _normalized(raw_events, label):
+def _normalized(raw_events, label, league):
     out = {}
     for e in raw_events:
-        c = _classify(e.get("season", {}))
+        c = _classify(e.get("season", {}), league)
         if c and c[0] == label:
             out[e["id"]] = dict(_normalize(e), stage=c[1])
     return sorted(out.values(), key=lambda e: e["date"])
@@ -70,17 +73,17 @@ def fetch_current_tournament(league):
     now = datetime.now(timezone.utc)
     month = (now.replace(day=1) + timedelta(days=32)).replace(day=1)
     raw, label = [], None
-    for _ in range(9):
+    for _ in range(13):
         batch = _month_events(league, month, now)
         if label is None:
-            labels = [c[0] for c in (_classify(e.get("season", {})) for e in batch) if c]
+            labels = [c[0] for c in (_classify(e.get("season", {}), league) for e in batch) if c]
             label = labels[-1] if labels else None
-        mine = [e for e in batch if label and (_classify(e.get("season", {})) or ("",))[0] == label]
+        mine = [e for e in batch if label and (_classify(e.get("season", {}), league) or ("",))[0] == label]
         if label and not mine and raw:
             break
         raw += mine
         month = (month - timedelta(days=1)).replace(day=1)
-    events = _normalized(raw, label)
+    events = _normalized(raw, label, league)
     return (label, [e for e in events if e["stage"] == "regular"],
             [e for e in events if e["stage"] != "regular"])
 
@@ -100,12 +103,12 @@ def fetch_past_tournaments(league, start="202401", liguilla=False):
         month = (month + timedelta(days=32)).replace(day=1)
     labels = []
     for e in raw:
-        c = _classify(e.get("season", {}))
+        c = _classify(e.get("season", {}), league)
         if c and c[0] not in labels:
             labels.append(c[0])
     out = {}
     for label in labels:
-        events = _normalized(raw, label)
+        events = _normalized(raw, label, league)
         regular = [e for e in events if e["stage"] == "regular"]
         lig = [e for e in events if e["stage"] != "regular"]
         out[label] = (regular, lig) if liguilla else regular
