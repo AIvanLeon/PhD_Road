@@ -5,6 +5,7 @@
   "round_name": "Jornada",
   "table_note": "top 8 make the Liguilla",
   "lookahead_days": 7,
+  "kickoff_grace_minutes": 7,
   "form_games": 4,
   "weights": {
     "form_ppg": 1.0,

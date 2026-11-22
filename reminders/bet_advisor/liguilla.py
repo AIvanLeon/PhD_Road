@@ -208,9 +208,9 @@ def liguilla_section(regular, lig, cfg, details, days, now=None):
     now = now or datetime.now(timezone.utc)
     horizon = now + timedelta(days=days)
     _, matches = build_series(regular, lig, cfg, details)
-    upcoming = sorted((m for m in matches if now <= m["event"]["date"] <= horizon
-                       and (m["event"]["status"] == "STATUS_SCHEDULED" or now < datetime.now(timezone.utc))),
-                      key=lambda m: m["event"]["date"])
+    start = now - timedelta(minutes=cfg.get("kickoff_grace_minutes", 0))
+    upcoming = sorted((m for m in matches if start <= m["event"]["date"] <= horizon
+                       and not m["event"]["finished"]), key=lambda m: m["event"]["date"])
     if not upcoming:
         return ""
     parts = []

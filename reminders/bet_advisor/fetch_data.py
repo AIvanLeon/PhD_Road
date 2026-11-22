@@ -189,10 +189,12 @@ def build_table(events, form_games, total_rounds=None, details=None):
     return table, total_rounds
 
 
-def upcoming_fixtures(events, days):
+def upcoming_fixtures(events, days, grace_minutes=0):
+    """Unfinished matches kicking off in the next `days`, plus any that
+    kicked off less than `grace_minutes` ago."""
     now = datetime.now(timezone.utc)
-    horizon = now + timedelta(days=days)
-    return [e for e in events if e["status"] == "STATUS_SCHEDULED" and now <= e["date"] <= horizon]
+    start, horizon = now - timedelta(minutes=grace_minutes), now + timedelta(days=days)
+    return [e for e in events if not e["finished"] and start <= e["date"] <= horizon]
 
 
 if __name__ == "__main__":

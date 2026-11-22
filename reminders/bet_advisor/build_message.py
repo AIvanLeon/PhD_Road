@@ -183,11 +183,11 @@ def main():
     label, events, lig = fetch_current_tournament(cfg["league"])
     if not cfg.get("liguilla"):
         lig = []
-    wanted = [e for e in events + lig if e["finished"] or e["status"] == "STATUS_SCHEDULED"]
+    wanted = events + lig
     details = fetch_details(wanted, cfg["league"])
     table, total_rounds = build_table(events, cfg["form_games"], cfg.get("rounds_per_team"), details)
     fixtures = [
-        fx for fx in upcoming_fixtures(events, cfg["lookahead_days"])
+        fx for fx in upcoming_fixtures(events, cfg["lookahead_days"], cfg.get("kickoff_grace_minutes", 0))
         if table[fx["home_id"]]["remaining"] > 0 and table[fx["away_id"]]["remaining"] > 0
     ]
     sections = []

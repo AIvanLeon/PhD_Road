@@ -60,6 +60,8 @@ If leg 2 is in the same weekly window as an unplayed leg 1, the message shows bo
 
 Home advantage was first dropped because Apertura 2026 was unusual (home teams won 37%, vs 46–50% in 2024–2025). Tuned on 2024–2025 instead, 0.1–0.15 slightly improved draw and double-chance hit rates; kept small at 0.1.
 
+Matches that kicked off less than `kickoff_grace_minutes` (7) ago are still included, so a late-built message doesn't drop a game that just started.
+
 ## Usage
 
 ```bash

@@ -5,6 +5,7 @@
   "round_name": "Matchweek",
   "table_note": "top 4 Champions League · 5th Europa League · bottom 3 relegated",
   "lookahead_days": 7,
+  "kickoff_grace_minutes": 7,
   "form_games": 8,
   "weights": {
     "form_ppg": 1.0,
