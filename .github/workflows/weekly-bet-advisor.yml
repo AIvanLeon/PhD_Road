@@ -1,0 +1,34 @@
+name: Weekly Liga MX Bet Advisor
+
+on:
+  schedule:
+    # 15:00 UTC (9:00 CDMX) every Thursday, ahead of the Fri–Sun round
+    - cron: '0 15 * * 4'
+    # Mondays too, but only sends if there are Liguilla matches that week
+    # (Liguilla legs are often Wed/Thu + Sat/Sun)
+    - cron: '0 15 * * 1'
+  workflow_dispatch: {}
+
+jobs:
+  send-advice:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Build message
+        working-directory: reminders/bet_advisor
+        run: python build_message.py ${{ github.event.schedule == '0 15 * * 1' && '--liguilla-only' || '' }}
+
+      - name: Send to Telegram
+        working-directory: reminders/bet_advisor
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_telegram.py

@@ -1,0 +1,29 @@
+{
+  "league": "mex.1",
+  "league_name": "Liga MX",
+  "lookahead_days": 7,
+  "playoff_spots": 8,
+  "top_seeds": 4,
+  "form_games": 4,
+  "weights": {
+    "form_ppg": 1.0,
+    "form_sot_diff": 0.1
+  },
+  "home_advantage": 0.1,
+  "stakes": {
+    "final_rounds": 3,
+    "fighting_bonus": 0.3,
+    "seed_race_bonus": 0.15,
+    "nothing_to_play_penalty": 0.2
+  },
+  "thresholds": {
+    "draw": 0.2,
+    "double_chance": 0.35,
+    "win": 0.7
+  },
+  "liguilla": {
+    "big_lead": 2
+  },
+  "key_players": 3,
+  "backtest_min_played": 1
+}

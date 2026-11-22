@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 2. **Conferences & Internships reminder** — Monthly Telegram reminder (`reminders/conferences_internships/`)
 3. **Research digest** — Monthly Telegram digest of new papers matched against tracked authors/own research (`reminders/research_digest/`)
 4. **Talks & Seminars reminder** — Weekly Telegram reminder of upcoming talks/seminars/symposia, scraped from the Chemistry dept. calendar feed and PlanIt Purple (`reminders/talks_seminars/`)
+5. **Bet advisor** — Weekly Telegram lean for upcoming Liga MX matches, from current-season stats only (`reminders/bet_advisor/`)
 
 The repository is structured as a monorepo with independent components that can be deployed separately.
 
@@ -50,11 +51,22 @@ PhD_Road/
 │       ├── build_message.py       # Builds the weekly message, dedupes via data/seen_events.json
 │       ├── send_telegram.py       # Sends it via @PhDork_bot
 │       └── data/                  # Tracked in git — dedupe log (persistent state)
+│   │
+│   └── bet_advisor/                 # Weekly Liga MX match leans
+│       ├── config.json            # League, playoff spots, model weights/thresholds
+│       ├── fetch_data.py          # ESPN public API → season table, home/away splits, form
+│       ├── match_details.py       # Per-match odds, shots on target, player stats (cached)
+│       ├── players.py             # Top scorers/assisters per team + last-match availability flags
+│       ├── liguilla.py            # Playoff picks (seed/tie rules, first-leg diff) + replay of past Liguillas
+│       ├── build_message.py       # Rates each fixture, writes data/message.txt
+│       ├── backtest.py            # Replays the season (no lookahead) and scores the picks
+│       └── send_telegram.py       # Sends it via @PhDork_bot
 │
 └── .github/workflows/
     ├── monthly-reminder.yml       # Cron: conferences/internships, 1st of each month
     ├── monthly-digest.yml         # Cron: research digest, 1st of each month (+30 min)
-    └── weekly-talks-seminars.yml  # Cron: talks/seminars, every Monday
+    ├── weekly-talks-seminars.yml  # Cron: talks/seminars, every Monday
+    └── weekly-bet-advisor.yml     # Cron: Liga MX bet advisor, Thursdays (+ Mondays for Liguilla weeks)
 ```
 
 ## Development
@@ -114,6 +126,16 @@ python send_telegram.py     # sends it to @PhDork_bot
 ```
 
 Two sources, no keyword filtering (per design choice — everything in the window is shown): the Chemistry dept.'s `events-feed.xml` (the feed ignores its own `start`/`end` query params server-side and always returns its full cached event list, so the lookahead window is applied client-side in `fetch_events.py`), and PlanIt Purple's internal `/refresh_events` endpoint, called with the filter (category/audience/location IDs) saved from `https://planitpurple.northwestern.edu/#search=/5/1+20/1/` — Academic (general) + Sciences, Evanston, Graduate Students. No login/session token needed for either. Runs automatically weekly via `.github/workflows/weekly-talks-seminars.yml` (Mondays), which commits `data/seen_events.json` back so dedup persists (entries expire ~45 days after their event date). Requires `TELEGRAM_BOT_TOKEN`/`TELEGRAM_CHAT_ID` repo secrets (same bot). See `reminders/talks_seminars/README.md`.
+
+### Bet Advisor (Liga MX)
+
+```bash
+cd reminders/bet_advisor
+python build_message.py     # builds data/message.txt
+python send_telegram.py     # sends it to @PhDork_bot
+```
+
+Current-season data only, from ESPN's public API (`site.api.espn.com`, no key; the scoreboard only accepts single-month `dates=YYYYMM`, so `fetch_data.py` walks month by month). The table is computed from match results rather than ESPN's standings endpoint, which lags. Rating = last-4 pts-per-game + 0.1 × last-4 shots-on-target diff + 0.1 home advantage + stakes adjustment in the last 3 rounds (fighting for top 8 > racing for a top-4 seed/1st > clinched with nothing to gain / eliminated). Rating gap → draw / double chance / win / no bet. Home/away splits, season points, goal diff, rest days, a missing-key-player penalty and Over/Under were backtested and dropped. The message also lists each team's top 3 goals+assists players, ⚠️-flagged if absent/red-carded/unused in the last match. `backtest.py` replays every finished match using only prior results and settles each pick at the stored DraftKings odds (profit/ROI); its summary line is appended to the weekly message. `backtest.py --all` replays every tournament since Clausura 2024 separately (scoreboards cached in `data/scoreboard_cache/`; ESPN has odds only from Clausura 2026) — use 2024–2025 to tune, 2026 to test. Liguilla (`liguilla.py`): higher seed = better regular-season rank, hosts leg 2 and advances on a tied aggregate in QF/SF; leg 1 → double chance lower seed, leg 2 → double chance higher seed if level/ahead, higher seed win if behind or ≥2 up; final leg 2 → form model. `fetch_current_tournament` returns (label, regular, liguilla) — ESPN slugs `torneo-*` are regular season, `…---quarterfinals/semifinals/finals` are Liguilla, play-in slugs are ignored. Stateless — no commit-back. Runs Thursdays via `.github/workflows/weekly-bet-advisor.yml`, plus Mondays with `--liguilla-only` (sends only if Liguilla matches are in the window). See `reminders/bet_advisor/README.md`.
 
 ## Key Files & What They Do
 

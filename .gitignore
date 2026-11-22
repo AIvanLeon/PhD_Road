@@ -8,3 +8,6 @@ reminders/research_digest/data/message.txt
 reminders/talks_seminars/.env
 reminders/talks_seminars/__pycache__/
 reminders/talks_seminars/data/message.txt
+reminders/bet_advisor/.env
+reminders/bet_advisor/data/
+reminders/bet_advisor/__pycache__/
